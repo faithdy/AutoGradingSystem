@@ -130,8 +130,56 @@ TEST_F(Linked_List, hasObject) {
   EXPECT_TRUE(isomorphic_linkedList<int>(NULL,NULL));
 }
 
-TEST_F(Linked_List, Insert) {
+TEST_F(Linked_List, InsertOne) {
   M1->insert(30);
   M2->insert(40);
-  // EXPECT_FALSE(isomorphic_linkedList(M1,M2));
+  EXPECT_FALSE(isomorphic_linkedList(M1,M2));
+}
+
+TEST_F(Linked_List, InsertMany) {
+  M1->insert(31);
+  M2->insert(31);
+  M1->insert(32);
+  M2->insert(32);
+  M1->insert(33);
+  M2->insert(43);
+  EXPECT_FALSE(isomorphic_linkedList(M1,M2));
+}
+
+TEST_F(Linked_List, Search) {
+  M1->insert(30);
+  M1->insert(31);
+  M1->insert(32);
+  M1->insert(33);
+
+  M2->insert(40);
+  M2->insert(31);
+  M2->insert(32);
+  M2->insert(43);
+
+  node<int>* N1 = new node<int>(30);
+  node<int>* N2 = new node<int>(43);
+  node<int>* N1intoM1 = M1->search(30);
+  N1intoM1->next = NULL;
+  node<int>* N2intoM2 = M2->search(43);
+  N2intoM2->next = NULL;
+  EXPECT_TRUE(isomorphic_node(N1, N1intoM1));
+  EXPECT_TRUE(isomorphic_node(N2, N2intoM2));
+}
+
+TEST_F(Linked_List, Update) {
+  M1->insert(30);
+  M2->insert(40);
+  EXPECT_FALSE(isomorphic_linkedList(M1, M2));
+  EXPECT_TRUE(M1->update(30, 40));
+  EXPECT_FALSE(M1->update(30, 40));
+  EXPECT_TRUE(isomorphic_linkedList(M1, M2));
+}
+
+TEST_F(Linked_List, Delete) {
+  EXPECT_FALSE(M1->_delete(30));
+  M1->insert(30);
+  EXPECT_FALSE(M1->_delete(40));
+  EXPECT_TRUE(M1->_delete(30));
+  EXPECT_FALSE(M1->_delete(30));
 }

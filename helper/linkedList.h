@@ -60,6 +60,7 @@ public:
 
 template<typename T>
 linkedList<T>::linkedList() {
+  this->root = NULL;
 }
 
 template<typename T>
@@ -70,13 +71,12 @@ linkedList<T>::~linkedList() {
 template<typename T>
 bool linkedList<T>::insert(T value) {
   node<T> *horse = this->root;
-  while(horse) {
-    horse = horse->next;
-  }
-  horse = new node<T>(value);
 
-  if(horse || horse->value != value) return false;
-  else return true;
+  if(horse==NULL) this->root = new node<T>(value);
+  else {
+    while(horse->next) horse = horse->next;
+    horse->next = new node<T>(value);
+  } return true;
 }
 
 template<typename T>
@@ -94,7 +94,8 @@ node<T>* linkedList<T>::search(T value) {
   while(horse) {
     if(horse->value == value) return horse;
     else horse = horse->next;
-  } return NULL;
+  }
+  return NULL;
 }
 
 template<typename T>
