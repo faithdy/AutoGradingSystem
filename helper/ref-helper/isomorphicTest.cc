@@ -183,3 +183,20 @@ TEST_F(Linked_List, Delete) {
   EXPECT_TRUE(M1->_delete(30));
   EXPECT_FALSE(M1->_delete(30));
 }
+
+/***********************************
+    CASE 4 : Circular Linked List
+***********************************/
+class Circular_Linked_List : public ::testing::Test {
+ protected:
+   virtual void SetUp() {
+     M1 = new circularlinkedList<int>;
+     M2 = new circularlinkedList<int>;
+   }
+   virtual void TearDown() {
+     delete M1;
+     delete M2;
+   }
+   circularlinkedList<int>* M1;
+   circularlinkedList<int>* M2;
+};

@@ -2,12 +2,21 @@
 
 template<typename T>
 bool isomorphic_node(node<T>* M1, node<T>* M2) {
+  /*in circular list case,
+    we use static number and node
+    to work recursive function, well*/
+  static int count =0;
+  static node<T> *R1 = M1;
+  static node<T> *R2 = M2;
+
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;
   if(M1 == NULL || M2 == NULL) return false;
 
   if(M1->value != M2->value) return false;
+
+  if(count && (R1==M1 || R2==M2)) return false;
 
   return isomorphic_node(M1->next,M2->next);
 }
