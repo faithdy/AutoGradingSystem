@@ -14,12 +14,10 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = .
+GTEST_DIR = ../gtest-1.7.0
 
 # Where to find user code.
-USER_DIR = .
-VAR = isomorphicTest
-# VARNODE = node
+USER_DIR = ..
 
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
@@ -31,7 +29,7 @@ CXXFLAGS += -g -Wall -Wextra -pthread
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = $(VAR)
+TESTS = array_unittest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -73,15 +71,12 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-#$(VARNODE).o : $(USER_DIR)/$(VARNODE).cc $(USER_DIR)/$(VARNODE).h $(GTEST_HEADERS)
-#	$(CXX) $(CPPFLAGS) -c $(USER_DIR)/$(VARNODE).cc
+array.o : $(USER_DIR)/array.cc $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/array.cc
 
-$(VAR).o : $(USER_DIR)/$(VAR).cc $(USER_DIR)/$(VAR).h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(VAR).cc
+isomorphicTest.o : isomorphicTest.cc \
+                     $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c isomorphicTest.cc
 
-$(VAR)_unittest.o : $(USER_DIR)/$(VAR)_unittest.cc \
-                     $(USER_DIR)/$(VAR).h $(USER_DIR)/$(VARNODE).h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/$(VAR)_unittest.cc
-
-$(VAR)_unittest : $(VAR).o $(VAR)_unittest.o gtest_main.a
+array_unittest : array.o isomorphicTest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
