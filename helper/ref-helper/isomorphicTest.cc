@@ -58,16 +58,16 @@ TEST(Array,is_isomorphic_case_of_character) {
 class Node : public ::testing::Test {
  protected:
   virtual void SetUp() {
-    root = new node(1);
+    root = new node<int>(1);
 
-    node_size_of_3 = new node(1);
-    node_size_of_3->next = new node(2);
-    node_size_of_3->next->next = new node(3);
+    node_size_of_3 = new node<int>(1);
+    node_size_of_3->next = new node<int>(2);
+    node_size_of_3->next->next = new node<int>(3);
 
-    node_size_of_4 = new node(1);
-    node_size_of_4->next = new node(2);
-    node_size_of_4->next->next = new node(3);
-    node_size_of_4->next->next->next = new node(4);
+    node_size_of_4 = new node<int>(1);
+    node_size_of_4->next = new node<int>(2);
+    node_size_of_4->next->next = new node<int>(3);
+    node_size_of_4->next->next->next = new node<int>(4);
   }
 
   virtual void TearDown() {
@@ -75,17 +75,17 @@ class Node : public ::testing::Test {
     the dynamic memory allocation area*/
   }
 
-  node *root;
-  node *node_size_of_3;
-  node *node_size_of_4;
+  node<int> *root;
+  node<int> *node_size_of_3;
+  node<int> *node_size_of_4;
 };
 
 TEST_F(Node, has_object) {
-  node* nodeObject = root;
+  node<int>* nodeObject = root;
 
-  EXPECT_TRUE(isomorphic_node(NULL,NULL));
-  EXPECT_FALSE(isomorphic_node(nodeObject,NULL));
-  EXPECT_FALSE(isomorphic_node(NULL,nodeObject));
+  EXPECT_TRUE(isomorphic_node<int>(NULL,NULL));
+  EXPECT_FALSE(isomorphic_node<int>(nodeObject,NULL));
+  EXPECT_FALSE(isomorphic_node<int>(NULL,nodeObject));
 }
 
 TEST_F(Node, has_different_size) {
@@ -94,13 +94,13 @@ TEST_F(Node, has_different_size) {
 }
 
 TEST_F(Node, has_different_value) {
-  node_size_of_3->next->next->next = new node(5);
+  node_size_of_3->next->next->next = new node<int>(5);
   EXPECT_FALSE(isomorphic_node
     (node_size_of_3,node_size_of_4));
 }
 
 TEST_F(Node, is_isomorphic) {
-  node_size_of_3->next->next->next = new node(4);
+  node_size_of_3->next->next->next = new node<int>(4);
 
   EXPECT_TRUE(isomorphic_node
     (node_size_of_3,node_size_of_4));

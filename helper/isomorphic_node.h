@@ -1,6 +1,7 @@
 #include "linkedList.h"
 
-bool isomorphic_node(node* M1, node* M2) {
+template<typename T>
+bool isomorphic_node(node<T>* M1, node<T>* M2) {
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;

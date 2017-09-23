@@ -1,39 +1,46 @@
 #include <iostream>
 
+template<typename T>
 class node
 {
 public:
-  int value;
+  T value;
   node* next;
 public:
-  node(int);
+  node(T);
   ~node();
 
-  void  setValue(int);
+  void  setValue(T);
   void  setNext(node*);
-  int   getValue();
+  T   getValue();
   node* getNext();
 };
 
 /*declaration*/
-node::node(int _value = 0): value(_value), next(NULL) {}
+template<typename T>
+node<T>::node(T _value = 0): value(_value), next(NULL) {}
 
-node::~node() {
+template<typename T>
+node<T>::~node() {
 }
 
-void node::setValue(int value) {
+template<typename T>
+void node<T>::setValue(T value) {
   this->value = value;
 }
 
-void node::setNext(node* next) {
+template<typename T>
+void node<T>::setNext(node* next) {
   this->next = next;
 }
 
-int node::getValue() {
+template<typename T>
+T node<T>::getValue() {
   return this->value;
 }
 
-node* node::getNext() {
+template<typename T>
+node<T>* node<T>::getNext() {
   return this->next;
 }
 
