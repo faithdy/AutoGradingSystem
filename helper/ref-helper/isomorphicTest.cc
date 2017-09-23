@@ -1,6 +1,11 @@
 #include "gtest/gtest.h"
-#include "../array.h"
+#include "../isomorphic_array.h"
+#include "../linkedList.h"
 
+
+/***********************************
+          CASE 1 : Array
+***********************************/
 TEST(Array,Root_has_null) {
   int validArray[6] = {0,};
 
@@ -46,3 +51,7 @@ TEST(Array,is_isomorphic_case_of_character) {
 
   EXPECT_TRUE(array<char>(Array, Array2));
 }
+
+/***********************************
+          CASE 2 : Node
+***********************************/
