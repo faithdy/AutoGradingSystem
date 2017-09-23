@@ -37,12 +37,12 @@ TEST(Array,is_isomorphic_case_of_double) {
   double Array[6] = {1.1,2.2,3.3,4.4,5.5,6.6};
   double Array2[6] = {1.1,2.2,3.3,4.4,5.5,6.6};
 
-  EXPECT_TRUE(array<int>((int*)Array, (int*)Array2));
+  EXPECT_TRUE(array<double>(Array, Array2));
 }
 
 TEST(Array,is_isomorphic_case_of_character) {
   char Array[6] = {'a','b','c','d','e','f'};
   char Array2[6] = {'a','b','c','d','e','f'};
 
-  EXPECT_TRUE(array<int>((int*)Array, (int*)Array2));
+  EXPECT_TRUE(array<char>(Array, Array2));
 }
