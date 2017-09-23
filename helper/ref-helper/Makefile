@@ -71,12 +71,12 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-array.o : $(USER_DIR)/array.cc $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/array.cc
+array.o : $(USER_DIR)/array.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/array.h
 
 isomorphicTest.o : isomorphicTest.cc \
                      $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c isomorphicTest.cc
 
-array_unittest : array.o isomorphicTest.o gtest_main.a
+array_unittest : isomorphicTest.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
