@@ -3,7 +3,7 @@
 
 //case 1 : array
 template<typename T>
-bool array(T* M1, T* M2) {
+bool isomorphic_array(T* M1, T* M2) {
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;
@@ -17,5 +17,5 @@ bool array(T* M1, T* M2) {
 
   if(*M1 != *M2) return false;
 
-  return array(++M1,++M2);
+  return isomorphic_array(++M1,++M2);
 }

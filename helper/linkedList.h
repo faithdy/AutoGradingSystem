@@ -6,7 +6,7 @@ public:
   int value;
   node* next;
 public:
-  node();
+  node(int);
   ~node();
 
   void  setValue(int);
@@ -16,10 +16,7 @@ public:
 };
 
 /*declaration*/
-node::node() {
-  value=0;
-  next=NULL;
-}
+node::node(int _value = 0): value(_value), next(NULL) {}
 
 node::~node() {
 }
