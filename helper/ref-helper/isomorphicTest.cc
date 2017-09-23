@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "../isomorphic_array.h"
 #include "../isomorphic_node.h"
-
+#include "../isomorphic_linkedList.h"
 
 /***********************************
           CASE 1 : Array
@@ -104,4 +104,34 @@ TEST_F(Node, is_isomorphic) {
 
   EXPECT_TRUE(isomorphic_node
     (node_size_of_3,node_size_of_4));
+}
+
+
+/***********************************
+          CASE 3 : Linked List
+***********************************/
+class Linked_List : public ::testing::Test {
+ protected:
+   virtual void SetUp() {
+     M1 = new linkedList<int>;
+     M2 = new linkedList<int>;
+   }
+   virtual void TearDown() {
+     delete M1;
+     delete M2;
+   }
+   linkedList<int>* M1;
+   linkedList<int>* M2;
+};
+
+TEST_F(Linked_List, hasObject) {
+  EXPECT_FALSE(isomorphic_linkedList<int>(M1, NULL));
+  EXPECT_FALSE(isomorphic_linkedList<int>(NULL, M2));
+  EXPECT_TRUE(isomorphic_linkedList<int>(NULL,NULL));
+}
+
+TEST_F(Linked_List, Insert) {
+  M1->insert(30);
+  M2->insert(40);
+  // EXPECT_FALSE(isomorphic_linkedList(M1,M2));
 }

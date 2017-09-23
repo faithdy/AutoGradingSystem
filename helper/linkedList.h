@@ -1,4 +1,5 @@
 #include <iostream>
+#pragma once
 
 template<typename T>
 class node
@@ -44,15 +45,70 @@ node<T>* node<T>::getNext() {
   return this->next;
 }
 
-// class linkedList {
-// private:
-//   node* header;
-// public:
-//   linkedList();
-//   ~linkedList();
-//
-//   bool insert(int);
-//   bool update(int, int);
-//   bool search(int);
-//   bool delete(int);
-// }
+template<typename T>
+class linkedList {
+public:
+  node<T>* root;
+  linkedList();
+  ~linkedList();
+
+  bool insert(T);
+  bool update(T, T);
+  node<T>* search(T);
+  bool _delete(T);
+};
+
+template<typename T>
+linkedList<T>::linkedList() {
+}
+
+template<typename T>
+linkedList<T>::~linkedList() {
+  /*must filled*/
+}
+
+template<typename T>
+bool linkedList<T>::insert(T value) {
+  node<T> *horse = this->root;
+  while(horse) {
+    horse = horse->next;
+  }
+  horse = new node<T>(value);
+
+  if(horse || horse->value != value) return false;
+  else return true;
+}
+
+template<typename T>
+bool linkedList<T>::update(T oldValue, T newValue) {
+  node<T> *target = search(oldValue);
+  if(target == NULL) return false;
+
+  target->value = newValue;
+  return true;
+}
+
+template<typename T>
+node<T>* linkedList<T>::search(T value) {
+  node<T> *horse = this->root;
+  while(horse) {
+    if(horse->value == value) return horse;
+    else horse = horse->next;
+  } return NULL;
+}
+
+template<typename T>
+bool linkedList<T>::_delete(T value) {
+  node<T> *prev = this->root;
+  node<T> *target = search(value);
+  node<T> *next = target->next;
+
+  if(target == NULL) return false;
+
+  if(prev == target) root = next;
+  else while(prev->next!=target) prev = prev->next;
+  prev->next = next;
+
+  delete target;
+  return true;
+}
