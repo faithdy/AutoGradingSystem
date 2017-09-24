@@ -64,6 +64,23 @@ binary_node<T>* binary_node<T>::getRight() {
 }
 
 template<typename T>
+binary_node<T>* getParent(binary_node<T>* root, binary_node<T>* target) {
+  if(root == target) return NULL;
+
+  binary_node<T>* parent = root;
+  while(true) {
+    if(parent->value < target->value) {
+      if(parent->right != target) parent = parent->right;
+      else return parent;
+    }
+    else {
+      if(parent->left != target) parent = parent->left;
+      else return parent;
+    }
+  }
+}
+
+template<typename T>
 class bst
 {
 public:
@@ -134,6 +151,8 @@ bool bst<T>::update(T oldValue, T newValue) {
 template<typename T>
 bool bst<T>::_delete(T value) {
   binary_node<T> *horse = search(value);
+  binary_node<T> *target = search(value);
+  binary_node<T> *parent_target = NULL;
   binary_node<T> *prev = this->root;
   binary_node<T> *candidate = NULL;
   binary_node<T> *prev_candidate = NULL;
@@ -204,7 +223,10 @@ bool bst<T>::_delete(T value) {
     delete horse;
   }
   else if(horse->right) {
-    if(horse == root) root = horse->right;
+    if(horse == root) {
+      root->right->left = root->left;
+      root = root->right;
+    }
     else while(prev) {
       if(prev->value < value) {
         if(prev->right != horse) prev = prev->right;
@@ -215,11 +237,22 @@ bool bst<T>::_delete(T value) {
         else prev->left = horse->right;
       }
     }
-    delete horse;
+
   }
   else {
-    if(horse == root) root = NULL;
-    delete horse;
+    std::cout << "CASE : LEAF" << '\n';
+    parent_target = getParent(root, target);
+
+    if(parent_target) {
+      std::cout << "-- IN NOT ROOT" << '\n';
+      if(parent_target->left == target) parent_target->left = NULL;
+      else parent_target->right = NULL;
+    }
+    else {
+      std::cout << "-- IN ROOT" << '\n';
+      root=NULL;
+    }
+    delete target;
   }
   return true;
 }

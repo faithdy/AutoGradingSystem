@@ -389,6 +389,34 @@ TEST_F(Binary_Search_Tree, update) {
   T2->update(90, 80);
   EXPECT_TRUE(isomorphic_binarynode(T1->search(70),T2->root));
 }
+
+TEST_F(Binary_Search_Tree, delete_noSearch) {
+   bst<int> *T1 = new bst<int>;
+   T1->insert(10);
+   EXPECT_FALSE(T1->_delete(-3));
+}
+
+TEST_F(Binary_Search_Tree, delete_leaf) {
+   bst<int> *T1 = new bst<int>;
+   bst<int> *T2 = new bst<int>;
+   //case 1 : root
+   T1->insert(10);
+   T1->_delete(10);
+   EXPECT_FALSE(T1->root);
+  //  case 2 : not root
+   T1->insert(20);
+   T1->insert(10);
+   T1->insert(30);
+   T2->insert(20);
+   T2->insert(30);
+
+   T1->_delete(10);
+   EXPECT_TRUE(isomorphic_bst(T1,T2));
+}
+
+
+
+
 //
 // TEST_F(Binary_Search_Tree, delete_1) {
 //   bst<int> *T1 = new bst<int>;
@@ -462,21 +490,21 @@ TEST_F(Binary_Search_Tree, update) {
 //   EXPECT_TRUE(isomorphic_bst(T1, T2));
 // }
 
-TEST_F(Binary_Search_Tree, delete_4) {
-  bst<int> *T1 = new bst<int>;
-  bst<int> *T2 = new bst<int>;
-
-  T1->insert(1);
-  T1->insert(2);
-  T1->insert(3);
-  T1->insert(4);
-
-  T2->insert(1);
-  T2->insert(2);
-  T2->insert(4);
-print_tree(T1);print_tree(T2);
-  EXPECT_FALSE(isomorphic_bst(T1, T2));
-  T1->_delete(3);
-print_tree(T1);print_tree(T2);  
-  EXPECT_TRUE(isomorphic_bst(T1, T2));
-}
+// TEST_F(Binary_Search_Tree, delete_4) {
+//   bst<int> *T1 = new bst<int>;
+//   bst<int> *T2 = new bst<int>;
+//
+//   T1->insert(1);
+//   T1->insert(2);
+//   T1->insert(3);
+//   T1->insert(4);
+//
+//   T2->insert(1);
+//   T2->insert(2);
+//   T2->insert(3);
+// print_tree(T1);print_tree(T2);
+//   EXPECT_FALSE(isomorphic_bst(T1, T2));
+//   T1->_delete(4);
+// print_tree(T1);print_tree(T2);
+//   EXPECT_TRUE(isomorphic_bst(T1, T2));
+// }
