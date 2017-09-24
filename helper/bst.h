@@ -91,10 +91,25 @@ bst<T>::~bst() {
 template<typename T>
 bool bst<T>::insert(T value) {
   binary_node<T> *horse = this->root;
-  while(horse) {
-    if(horse->value < value) horse = horse->right;
-    else horse = horse->left;
-  } horse = new binary_node<T>(value);
+  if(root == NULL) root = new binary_node<T>(value);
+  else {
+    while(horse) {
+      if(horse->value < value) {
+        if(horse->right) horse = horse->right;
+        else {
+          horse->right = new binary_node<T>(value);
+          return true;
+        }
+      }
+      else {
+        if(horse->left) horse = horse->left;
+        else {
+          horse->left = new binary_node<T>(value);
+          return true;
+        }
+      }
+    }
+  }
   return true;
 }
 
@@ -126,8 +141,53 @@ bool bst<T>::_delete(T value) {
   if(horse == NULL) return false;
 
   if(horse->left && horse->right) {
+    /*Step 1 : find prev */
+    if(horse!=root) prev = NULL;
+    else while(prev) {
+      if(prev->value < value) {
+        if(prev->right != horse) prev = prev->right;
+        else break;
+      }
+      else {
+        if(prev->left != horse) prev = prev->left;
+        else break;
+      }
+    }
 
+    /*Step 2 : find prev_candidate, candidate*/
+    candidate = horse->left;
+    if(candidate->right) {
+      prev_candidate = candidate;
+      candidate = candidate->right;
+    }
 
+    /*Step 3 : rebuilding */
+    if(prev_candidate) {
+      prev_candidate->right = candidate->left;
+      if(prev) {
+        candidate->left = horse->left;
+        candidate->right = horse->right;
+        if(prev->left == horse) prev->left = candidate;
+        else prev->right = candidate;
+      }
+      else {
+        candidate->left = root->left;
+        candidate->right = root->right;
+        root=candidate;
+      }
+    }
+    else {
+      if(prev) {
+        candidate->right = horse->right;
+        if(prev->left == horse) prev->left = candidate;
+        else prev->right = candidate;
+      }
+      else {
+        candidate->right = root->right;
+        root=candidate;
+      }
+    }
+    delete horse;
   }
   else if(horse->left) {
     if(horse == root) root = horse->left;
@@ -161,5 +221,5 @@ bool bst<T>::_delete(T value) {
     if(horse == root) root = NULL;
     delete horse;
   }
-
+  return true;
 }

@@ -264,7 +264,7 @@ TEST_F(Circular_Linked_List, Delete) {
 }
 
 /***********************************
-      CASE 4 : Binary Node
+      CASE 5 : Binary Node
 ***********************************/
 class Binary_Node : public ::testing::Test {
  protected:
@@ -318,4 +318,165 @@ TEST_F(Binary_Node, has_different_value) {
 TEST_F(Binary_Node, is_isomorphic) {
   node_size_of_5->right->left=new binary_node<int>(350);
   EXPECT_TRUE(isomorphic_binarynode(node_size_of_5, node_size_of_6));
+}
+
+/***********************************
+    CASE 6 : Binary Search Tree
+***********************************/
+
+class Binary_Search_Tree : public ::testing::Test {
+protected:
+  virtual void SetUP() {
+  }
+
+  virtual void TearDown() {
+  }
+};
+
+TEST_F(Binary_Search_Tree, hasObejct) {
+  bst<int> *M0 = NULL;
+  EXPECT_FALSE(M0);
+  M0 = new bst<int>;
+  EXPECT_TRUE(M0);
+}
+
+TEST_F(Binary_Search_Tree, insert) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+  EXPECT_TRUE(isomorphic_bst(T1, T2));
+  binary_node<int> *N1 = new binary_node<int>(70);
+  binary_node<int> *N2 = new binary_node<int>(30);
+  T1->root = N1;
+  N1->left = N2;
+  EXPECT_FALSE(isomorphic_bst(T1, T2));
+  T2->insert(70);
+  T2->insert(30);
+  EXPECT_TRUE(isomorphic_bst(T1, T2));
+}
+
+TEST_F(Binary_Search_Tree, search) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+  T1->insert(50);
+  T1->insert(30);
+  T1->insert(70);
+  T1->insert(60);
+  T1->insert(80);
+
+  T2->insert(70);
+  T2->insert(60);
+  T2->insert(80);
+
+  EXPECT_FALSE(T1->search(-1));
+  EXPECT_TRUE(isomorphic_binarynode(T1->search(70),T2->root));
+}
+
+TEST_F(Binary_Search_Tree, update) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+  T1->insert(50);
+  T1->insert(30);
+  T1->insert(70);
+  T1->insert(60);
+  T1->insert(80);
+
+  T2->insert(70);
+  T2->insert(60);
+  T2->insert(90);
+
+  EXPECT_FALSE(T1->update(-1, 4));
+  EXPECT_FALSE(isomorphic_binarynode(T1->search(70),T2->root));
+  T2->update(90, 80);
+  EXPECT_TRUE(isomorphic_binarynode(T1->search(70),T2->root));
+}
+//
+// TEST_F(Binary_Search_Tree, delete_1) {
+//   bst<int> *T1 = new bst<int>;
+//   bst<int> *T2 = new bst<int>;
+//
+//   T1->insert(800);
+//   T1->insert(400);
+//   T1->insert(1200);
+//   T1->insert(200);
+//   T1->insert(100);
+//
+//   T2->insert(400);
+//   T2->insert(200);
+//   T2->insert(1200);
+//   T2->insert(100);
+//
+//   EXPECT_FALSE(isomorphic_bst(T1, T2));
+//   T1->_delete(800);
+//   EXPECT_TRUE(isomorphic_bst(T1, T2));
+// }
+//
+// TEST_F(Binary_Search_Tree, delete_2) {
+//   bst<int> *T1 = new bst<int>;
+//   bst<int> *T2 = new bst<int>;
+//
+//   T1->insert(800);
+//   T1->insert(400);
+//   T1->insert(1200);
+//   T1->insert(200);
+//   T1->insert(100);
+//   T1->insert(600);
+//   T1->insert(500);
+//
+//   T2->insert(600);
+//   T2->insert(400);
+//   T2->insert(1200);
+//   T2->insert(200);
+//   T2->insert(500);
+//   T2->insert(100);
+//
+//   EXPECT_FALSE(isomorphic_bst(T1, T2));
+//   T1->_delete(800);
+//   EXPECT_TRUE(isomorphic_bst(T1, T2));
+// }
+//
+// TEST_F(Binary_Search_Tree, delete_3) {
+//   bst<int> *T1 = new bst<int>;
+//   bst<int> *T2 = new bst<int>;
+//
+//   T1->insert(800);
+//   T1->insert(400);
+//   T1->insert(1200);
+//   T1->insert(200);
+//   T1->insert(100);
+//   T1->insert(600);
+//   T1->insert(500);
+//   T1->insert(300);
+//   T1->insert(250);
+//
+//   T1->insert(800);
+//   T1->insert(300);
+//   T1->insert(1200);
+//   T1->insert(200);
+//   T1->insert(100);
+//   T1->insert(600);
+//   T1->insert(500);
+//   T1->insert(250);
+//
+//   EXPECT_FALSE(isomorphic_bst(T1, T2));
+//   T1->_delete(400);
+//   EXPECT_TRUE(isomorphic_bst(T1, T2));
+// }
+
+TEST_F(Binary_Search_Tree, delete_4) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+
+  T1->insert(1);
+  T1->insert(2);
+  T1->insert(3);
+  T1->insert(4);
+
+  T2->insert(1);
+  T2->insert(2);
+  T2->insert(4);
+print_tree(T1);print_tree(T2);
+  EXPECT_FALSE(isomorphic_bst(T1, T2));
+  T1->_delete(3);
+print_tree(T1);print_tree(T2);  
+  EXPECT_TRUE(isomorphic_bst(T1, T2));
 }

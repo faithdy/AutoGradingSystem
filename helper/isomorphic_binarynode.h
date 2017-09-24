@@ -12,3 +12,19 @@ bool isomorphic_binarynode(binary_node<T>* M1, binary_node<T>* M2) {
   return isomorphic_binarynode(M1->left,M2->left)
     && isomorphic_binarynode(M1->right,M2->right);
 }
+
+template<typename T>
+void traversal_node(binary_node<T>* root) {
+  if(root==NULL) return;
+  traversal_node(root->left);
+  std::cout << root->value<<"->";
+  traversal_node(root->right);
+}
+
+template<typename T>
+void print_tree(bst<T> *Tree) {
+  if(Tree==NULL) return;
+  std::cout << "/* message */" << '\n';
+  traversal_node(Tree->root);
+  std::cout << std::endl << "/* message */" << '\n';
+}
