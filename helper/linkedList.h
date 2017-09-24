@@ -183,7 +183,6 @@ bool circularlinkedList<T>::_delete(T value) {
       root = root->next;
     }
   }
-
   else {
     while(prev->next!=target) prev = prev->next;
     prev->next = target->next;

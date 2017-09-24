@@ -109,7 +109,7 @@ TEST_F(Node, is_isomorphic) {
 
 
 /***********************************
-          CASE 3 : Linked List
+        CASE 3 : Linked List
 ***********************************/
 class Linked_List : public ::testing::Test {
  protected:
@@ -260,3 +260,7 @@ TEST_F(Circular_Linked_List, Delete) {
 
   EXPECT_TRUE(isomorphic_circularlinkedList(M3,M4));
 }
+
+/***********************************
+      CASE 4 : Binary Node
+***********************************/
