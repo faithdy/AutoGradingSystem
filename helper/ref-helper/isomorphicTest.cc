@@ -4,6 +4,7 @@
 #include "../isomorphic_linkedList.h"
 #include "../isomorphic_circularlinkedlist.h"
 #include "../isomorphic_binarynode.h"
+#include "../isomorphic_bst.h"
 
 /***********************************
           CASE 1 : Array
