@@ -215,6 +215,7 @@ TEST_F(Circular_Linked_List, hasObject) {
 }
 
 TEST_F(Circular_Linked_List, Insert) {
+  EXPECT_TRUE(isomorphic_circularlinkedList(M1,M2));
   M1->insert(1.1);
   M2->insert(1.1);
   EXPECT_TRUE(isomorphic_circularlinkedList(M1,M2));
@@ -223,4 +224,39 @@ TEST_F(Circular_Linked_List, Insert) {
   EXPECT_FALSE(isomorphic_circularlinkedList(M1,M2));
   M2->insert(2.1);
   EXPECT_TRUE(isomorphic_circularlinkedList(M1,M2));
+}
+
+TEST_F(Circular_Linked_List, Search) {
+  for(int i=1; i<6; i++) M3->insert(i);
+  for(int j=1; j<4; j++) M4->insert(j);
+  EXPECT_FALSE(isomorphic_circularlinkedList(M3,M4));
+
+  node<int>* N3intoM3 = M3->search(3);
+  N3intoM3->next = M3->root;
+  EXPECT_TRUE(isomorphic_circularlinkedList(M3,M4));
+
+  node<int>* Nullity = M3->search(4);
+  EXPECT_FALSE(Nullity);
+  EXPECT_TRUE(isomorphic_node_iterative(Nullity, (node<int> *)NULL));
+}
+
+TEST_F(Circular_Linked_List, Update) {
+  for(int i=1; i<6; i++) M3->insert(i);
+  for(int j=1; j<6; j++) M4->insert(j+1);
+  EXPECT_FALSE(M3->update(-1,10));
+
+  for(int j=1; j<6; j++)
+    EXPECT_TRUE(M4->update(j+1,j));
+
+  EXPECT_TRUE(isomorphic_circularlinkedList(M3,M4));
+}
+
+TEST_F(Circular_Linked_List, Delete) {
+  EXPECT_FALSE(M3->_delete(-1));
+  for(int i=1; i<6; i++) M3->insert(i);
+  for(int j=1; j<5; j++) M4->insert(j);
+  EXPECT_FALSE(M3->_delete(-1));
+  EXPECT_TRUE(M3->_delete(5));
+
+  EXPECT_TRUE(isomorphic_circularlinkedList(M3,M4));
 }
