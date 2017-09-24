@@ -24,7 +24,7 @@ void traversal_node(binary_node<T>* root) {
 template<typename T>
 void print_tree(bst<T> *Tree) {
   if(Tree==NULL) return;
-  std::cout << "/* message */" << '\n';
+  std::cout << "[";
   traversal_node(Tree->root);
-  std::cout << std::endl << "/* message */" << '\n';
+  std::cout << "END]" << '\n';
 }

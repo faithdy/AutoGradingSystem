@@ -27,8 +27,6 @@ binary_node<T>::binary_node(T _value = 0): value(_value), left(NULL), right(NULL
 
 template<typename T>
 binary_node<T>::~binary_node() {
-  delete left;
-  delete right;
   left=NULL;
   right=NULL;
 }
@@ -209,49 +207,31 @@ bool bst<T>::_delete(T value) {
     delete horse;
   }
   else if(horse->left) {
-    if(horse == root) root = horse->left;
-    else while(prev) {
-      if(prev->value < value) {
-        if(prev->right != horse) prev = prev->right;
-        else prev->right = horse->left;
-      }
-      else {
-        if(prev->left != horse) prev = prev->left;
-        else prev->left = horse->left;
-      }
+    parent_target = getParent(root, target);
+    if(parent_target) {
+      if(parent_target->left == target) parent_target->left = target->left;
+      else parent_target->right = target->left;
     }
-    delete horse;
+    else root = target->left;
+    delete target;
   }
-  else if(horse->right) {
-    if(horse == root) {
-      root->right->left = root->left;
-      root = root->right;
+  else if(target->right) {
+    parent_target = getParent(root, target);
+    if(parent_target) {
+      if(parent_target->left == target) parent_target->left = target->right;
+      else parent_target->right = target->right;
     }
-    else while(prev) {
-      if(prev->value < value) {
-        if(prev->right != horse) prev = prev->right;
-        else prev->right = horse->right;
-      }
-      else {
-        if(prev->left != horse) prev = prev->left;
-        else prev->left = horse->right;
-      }
-    }
-
+    else root = target->right;
+    delete target;
   }
   else {
-    std::cout << "CASE : LEAF" << '\n';
     parent_target = getParent(root, target);
 
     if(parent_target) {
-      std::cout << "-- IN NOT ROOT" << '\n';
       if(parent_target->left == target) parent_target->left = NULL;
       else parent_target->right = NULL;
     }
-    else {
-      std::cout << "-- IN ROOT" << '\n';
-      root=NULL;
-    }
+    else root=NULL;
     delete target;
   }
   return true;

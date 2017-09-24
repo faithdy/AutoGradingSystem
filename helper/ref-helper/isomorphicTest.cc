@@ -391,31 +391,91 @@ TEST_F(Binary_Search_Tree, update) {
 }
 
 TEST_F(Binary_Search_Tree, delete_noSearch) {
-   bst<int> *T1 = new bst<int>;
-   T1->insert(10);
-   EXPECT_FALSE(T1->_delete(-3));
+  bst<int> *T1 = new bst<int>;
+  T1->insert(10);
+  EXPECT_FALSE(T1->_delete(-3));
 }
 
 TEST_F(Binary_Search_Tree, delete_leaf) {
-   bst<int> *T1 = new bst<int>;
-   bst<int> *T2 = new bst<int>;
-   //case 1 : root
-   T1->insert(10);
-   T1->_delete(10);
-   EXPECT_FALSE(T1->root);
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+  //case 1 : root
+  T1->insert(10);
+  T1->_delete(10);
+  EXPECT_FALSE(T1->root);
   //  case 2 : not root
-   T1->insert(20);
-   T1->insert(10);
-   T1->insert(30);
-   T2->insert(20);
-   T2->insert(30);
+  T1->insert(20);
+  T1->insert(10);
+  T1->insert(30);
+  T2->insert(20);
+  T2->insert(30);
 
-   T1->_delete(10);
-   EXPECT_TRUE(isomorphic_bst(T1,T2));
+  T1->_delete(10);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
 }
 
+TEST_F(Binary_Search_Tree, delete_only_have_right) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
 
+  //case1 : root
+  T1->insert(1);
+  T1->insert(10);
+  T1->insert(5);
+  T1->insert(15);
 
+  T2->insert(10);
+  T2->insert(5);
+  T2->insert(15);
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(1);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+
+  //case 2 : target is not root
+  T1->insert(7);
+  T1->insert(6);
+  T1->insert(8);
+
+  T2->_delete(5);
+  T2->insert(7);
+  T2->insert(8);
+  T2->insert(6);
+
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(5);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+}
+
+TEST_F(Binary_Search_Tree, delete_only_have_left) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
+
+  //case : root
+  T1->insert(30);
+  T1->insert(20);
+  T1->insert(10);
+  T1->insert(26);
+
+  T2->insert(20);
+  T2->insert(10);
+  T2->insert(26);
+
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(30);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+
+  //case : not root
+  T1->insert(23);
+  T1->insert(22);
+  T1->insert(24);
+  T2->update(26, 23);
+  T2->insert(22);
+  T2->insert(24);
+  
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(26);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+}
 
 //
 // TEST_F(Binary_Search_Tree, delete_1) {
