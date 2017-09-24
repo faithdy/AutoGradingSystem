@@ -27,6 +27,10 @@ binary_node<T>::binary_node(T _value = 0): value(_value), left(NULL), right(NULL
 
 template<typename T>
 binary_node<T>::~binary_node() {
+  delete left;
+  delete right;
+  left=NULL;
+  right=NULL;
 }
 
 template<typename T>

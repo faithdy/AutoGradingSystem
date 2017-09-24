@@ -3,6 +3,7 @@
 #include "../isomorphic_node.h"
 #include "../isomorphic_linkedList.h"
 #include "../isomorphic_circularlinkedlist.h"
+#include "../isomorphic_binarynode.h"
 
 /***********************************
           CASE 1 : Array
@@ -264,3 +265,56 @@ TEST_F(Circular_Linked_List, Delete) {
 /***********************************
       CASE 4 : Binary Node
 ***********************************/
+class Binary_Node : public ::testing::Test {
+ protected:
+  virtual void SetUp() {
+    root = new binary_node<int>(1);
+
+    node_size_of_5 = new binary_node<int>(300);
+    node_size_of_5->left = new binary_node<int>(200);
+    node_size_of_5->left->left = new binary_node<int>(100);
+    node_size_of_5->right = new binary_node<int>(400);
+    node_size_of_5->right->right = new binary_node<int>(500);
+
+    node_size_of_6 = new binary_node<int>(300);
+    node_size_of_6->left = new binary_node<int>(200);
+    node_size_of_6->left->left = new binary_node<int>(100);
+    node_size_of_6->right = new binary_node<int>(400);
+    node_size_of_6->right->left = new binary_node<int>(350);
+    node_size_of_6->right->right = new binary_node<int>(500);
+  }
+
+  virtual void TearDown() {
+    /*Generally, this scope must free
+    the dynamic memory allocation area*/
+  }
+
+  binary_node<int> *root;
+  binary_node<int> *node_size_of_5;
+  binary_node<int> *node_size_of_6;
+};
+
+TEST_F(Binary_Node, has_object) {
+  binary_node<int> *origin = NULL;
+  EXPECT_FALSE(origin);
+  origin = new binary_node<int>(1);
+  EXPECT_TRUE(origin);
+  EXPECT_FALSE(origin->left);
+  EXPECT_FALSE(origin->right);
+}
+
+TEST_F(Binary_Node, has_different_size) {
+  EXPECT_FALSE(isomorphic_binarynode(node_size_of_5, node_size_of_6));
+  node_size_of_6->right->left=NULL;
+  EXPECT_TRUE(isomorphic_binarynode(node_size_of_5, node_size_of_6));
+}
+
+TEST_F(Binary_Node, has_different_value) {
+  node_size_of_5->right->left=new binary_node<int>(350-100);
+  EXPECT_FALSE(isomorphic_binarynode(node_size_of_5, node_size_of_6));
+}
+
+TEST_F(Binary_Node, is_isomorphic) {
+  node_size_of_5->right->left=new binary_node<int>(350);
+  EXPECT_TRUE(isomorphic_binarynode(node_size_of_5, node_size_of_6));
+}
