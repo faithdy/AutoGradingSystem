@@ -2,6 +2,7 @@
 #include "../isomorphic_array.h"
 #include "../isomorphic_node.h"
 #include "../isomorphic_linkedList.h"
+#include "../isomorphic_circularlinkedlist.h"
 
 /***********************************
           CASE 1 : Array
@@ -190,13 +191,36 @@ TEST_F(Linked_List, Delete) {
 class Circular_Linked_List : public ::testing::Test {
  protected:
    virtual void SetUp() {
-     M1 = new circularlinkedList<int>;
-     M2 = new circularlinkedList<int>;
+     M1 = new circularlinkedList<double>;
+     M2 = new circularlinkedList<double>;
+     M3 = new circularlinkedList<int>;
+     M4 = new circularlinkedList<int>;
    }
    virtual void TearDown() {
      delete M1;
      delete M2;
+     delete M3;
+     delete M4;
    }
-   circularlinkedList<int>* M1;
-   circularlinkedList<int>* M2;
+   circularlinkedList<double>* M1;
+   circularlinkedList<double>* M2;
+   circularlinkedList<int>* M3;
+   circularlinkedList<int>* M4;
 };
+
+TEST_F(Circular_Linked_List, hasObject) {
+  EXPECT_FALSE(isomorphic_circularlinkedList<int>(M3, NULL));
+  EXPECT_FALSE(isomorphic_circularlinkedList<int>(NULL, M4));
+  EXPECT_TRUE(isomorphic_circularlinkedList<int>(NULL,NULL));
+}
+
+TEST_F(Circular_Linked_List, Insert) {
+  M1->insert(1.1);
+  M2->insert(1.1);
+  EXPECT_TRUE(isomorphic_circularlinkedList(M1,M2));
+
+  M1->insert(2.1);
+  EXPECT_FALSE(isomorphic_circularlinkedList(M1,M2));
+  M2->insert(2.1);
+  EXPECT_TRUE(isomorphic_circularlinkedList(M1,M2));
+}
