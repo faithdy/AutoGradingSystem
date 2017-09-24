@@ -41,8 +41,8 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 all : $(TESTS)
 
 clean :
-	#rm -f $(TESTS) gtest.a gtest_main.a *.o
-	rm -f $(TESTS) isomorphicTest.o
+	rm -f $(TESTS) gtest.a gtest_main.a *.o
+
 
 # Builds gtest.a and gtest_main.a.
 
