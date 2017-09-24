@@ -79,6 +79,13 @@ binary_node<T>* getParent(binary_node<T>* root, binary_node<T>* target) {
 }
 
 template<typename T>
+binary_node<T>* getCandidate(binary_node<T>* target) {
+  if(target->right==NULL) return target;
+  return getCandidate(target->right);
+}
+
+
+template<typename T>
 class bst
 {
 public:
@@ -148,66 +155,39 @@ bool bst<T>::update(T oldValue, T newValue) {
 
 template<typename T>
 bool bst<T>::_delete(T value) {
-  binary_node<T> *horse = search(value);
   binary_node<T> *target = search(value);
-  binary_node<T> *parent_target = NULL;
-  binary_node<T> *prev = this->root;
-  binary_node<T> *candidate = NULL;
-  binary_node<T> *prev_candidate = NULL;
+  if(target == NULL) return false;
+  binary_node<T> *parent_target = getParent(root, target);
 
-  if(horse == NULL) return false;
+  if(target->left && target->right) {
+    binary_node<T> *candidate = getCandidate(target->left);
+    binary_node<T> *parent_candidate = NULL;
+    if(target->left->right) parent_candidate = getParent(root, candidate);
 
-  if(horse->left && horse->right) {
-    /*Step 1 : find prev */
-    if(horse!=root) prev = NULL;
-    else while(prev) {
-      if(prev->value < value) {
-        if(prev->right != horse) prev = prev->right;
-        else break;
+    if(parent_target) {
+      if(parent_candidate) {
+        parent_candidate->right = candidate->left;
+        candidate->left = target->left;
+        candidate->right = target->right;
       }
-      else {
-        if(prev->left != horse) prev = prev->left;
-        else break;
-      }
-    }
+      else candidate->right = target->right;
 
-    /*Step 2 : find prev_candidate, candidate*/
-    candidate = horse->left;
-    if(candidate->right) {
-      prev_candidate = candidate;
-      candidate = candidate->right;
-    }
-
-    /*Step 3 : rebuilding */
-    if(prev_candidate) {
-      prev_candidate->right = candidate->left;
-      if(prev) {
-        candidate->left = horse->left;
-        candidate->right = horse->right;
-        if(prev->left == horse) prev->left = candidate;
-        else prev->right = candidate;
-      }
-      else {
-        candidate->left = root->left;
-        candidate->right = root->right;
-        root=candidate;
-      }
+      if(parent_target->left == target) parent_target->left = candidate;
+      else parent_target->right = candidate;
     }
     else {
-      if(prev) {
-        candidate->right = horse->right;
-        if(prev->left == horse) prev->left = candidate;
-        else prev->right = candidate;
+      if(parent_candidate) {
+        parent_candidate->right = candidate->left;
+        candidate->left = target->left;
+        candidate->right = target->right;
       }
-      else {
-        candidate->right = root->right;
-        root=candidate;
-      }
+      else candidate->right = target->right;
+
+      root = candidate;
     }
-    delete horse;
+    delete target;
   }
-  else if(horse->left) {
-    parent_target = getParent(root, target);
+  else if(target->left) {
     if(parent_target) {
       if(parent_target->left == target) parent_target->left = target->left;
       else parent_target->right = target->left;
@@ -216,7 +196,6 @@ bool bst<T>::_delete(T value) {
     delete target;
   }
   else if(target->right) {
-    parent_target = getParent(root, target);
     if(parent_target) {
       if(parent_target->left == target) parent_target->left = target->right;
       else parent_target->right = target->right;
@@ -225,8 +204,6 @@ bool bst<T>::_delete(T value) {
     delete target;
   }
   else {
-    parent_target = getParent(root, target);
-
     if(parent_target) {
       if(parent_target->left == target) parent_target->left = NULL;
       else parent_target->right = NULL;

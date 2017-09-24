@@ -471,100 +471,76 @@ TEST_F(Binary_Search_Tree, delete_only_have_left) {
   T2->update(26, 23);
   T2->insert(22);
   T2->insert(24);
-  
+
   EXPECT_FALSE(isomorphic_bst(T1,T2));
   T1->_delete(26);
   EXPECT_TRUE(isomorphic_bst(T1,T2));
 }
 
-//
-// TEST_F(Binary_Search_Tree, delete_1) {
-//   bst<int> *T1 = new bst<int>;
-//   bst<int> *T2 = new bst<int>;
-//
-//   T1->insert(800);
-//   T1->insert(400);
-//   T1->insert(1200);
-//   T1->insert(200);
-//   T1->insert(100);
-//
-//   T2->insert(400);
-//   T2->insert(200);
-//   T2->insert(1200);
-//   T2->insert(100);
-//
-//   EXPECT_FALSE(isomorphic_bst(T1, T2));
-//   T1->_delete(800);
-//   EXPECT_TRUE(isomorphic_bst(T1, T2));
-// }
-//
-// TEST_F(Binary_Search_Tree, delete_2) {
-//   bst<int> *T1 = new bst<int>;
-//   bst<int> *T2 = new bst<int>;
-//
-//   T1->insert(800);
-//   T1->insert(400);
-//   T1->insert(1200);
-//   T1->insert(200);
-//   T1->insert(100);
-//   T1->insert(600);
-//   T1->insert(500);
-//
-//   T2->insert(600);
-//   T2->insert(400);
-//   T2->insert(1200);
-//   T2->insert(200);
-//   T2->insert(500);
-//   T2->insert(100);
-//
-//   EXPECT_FALSE(isomorphic_bst(T1, T2));
-//   T1->_delete(800);
-//   EXPECT_TRUE(isomorphic_bst(T1, T2));
-// }
-//
-// TEST_F(Binary_Search_Tree, delete_3) {
-//   bst<int> *T1 = new bst<int>;
-//   bst<int> *T2 = new bst<int>;
-//
-//   T1->insert(800);
-//   T1->insert(400);
-//   T1->insert(1200);
-//   T1->insert(200);
-//   T1->insert(100);
-//   T1->insert(600);
-//   T1->insert(500);
-//   T1->insert(300);
-//   T1->insert(250);
-//
-//   T1->insert(800);
-//   T1->insert(300);
-//   T1->insert(1200);
-//   T1->insert(200);
-//   T1->insert(100);
-//   T1->insert(600);
-//   T1->insert(500);
-//   T1->insert(250);
-//
-//   EXPECT_FALSE(isomorphic_bst(T1, T2));
-//   T1->_delete(400);
-//   EXPECT_TRUE(isomorphic_bst(T1, T2));
-// }
+TEST_F(Binary_Search_Tree, delete_have_two_child) {
+  bst<int> *T1 = new bst<int>;
+  bst<int> *T2 = new bst<int>;
 
-// TEST_F(Binary_Search_Tree, delete_4) {
-//   bst<int> *T1 = new bst<int>;
-//   bst<int> *T2 = new bst<int>;
-//
-//   T1->insert(1);
-//   T1->insert(2);
-//   T1->insert(3);
-//   T1->insert(4);
-//
-//   T2->insert(1);
-//   T2->insert(2);
-//   T2->insert(3);
-// print_tree(T1);print_tree(T2);
-//   EXPECT_FALSE(isomorphic_bst(T1, T2));
-//   T1->_delete(4);
-// print_tree(T1);print_tree(T2);
-//   EXPECT_TRUE(isomorphic_bst(T1, T2));
-// }
+  //case 1 : root is targeted.
+  std::cout << "[ CASE: Root is targeted. ]" << '\n';
+
+  //case 1-1 : target's left child has greatest value in sub-tree.
+  std::cout << "[ 1)target's left child has greatest value in sub-tree ]" << '\n';
+  T1->insert(80);
+  T1->insert(50);
+  T1->insert(90);
+  T1->insert(10);
+
+  T2->insert(50);
+  T2->insert(90);
+  T2->insert(10);
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(80);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+
+  //case 1-2 : target's left child has not greatest value in sub-tree.
+  std::cout << "[ 2)target's left child has not greatest value in sub-tree ]" << '\n';
+  T1->insert(1);
+  T1->insert(20);
+  T1->insert(15);
+  T1->insert(30);
+  T1->insert(25);
+  T2->update(50,30);
+  T2->insert(1);
+  T2->insert(20);
+  T2->insert(15);
+  T2->insert(25);
+
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(50);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+
+  std::cout << '\n';
+  //case 2: root is not targeted.
+  std::cout << "[ CASE: Root is not targeted. ]"<< '\n';
+
+  //case 2-1 : target's left child has greatest value in sub-tree.
+  std::cout << "[ 1)target's left child has greatest value in sub-tree ]" << '\n';
+  T1->insert(70);
+
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(90);
+  T2->update(90,70);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+
+  //case 2-2 : target's left child has greatest value in sub-tree.
+  std::cout << "[ 2)target's left child has not greatest value in sub-tree ]" << '\n';
+  T1->insert(3);
+  T1->insert(2);
+  T1->insert(5);
+  T1->insert(4);
+
+  T2->insert(3);
+  T2->insert(2);
+  T2->insert(4);
+
+  EXPECT_FALSE(isomorphic_bst(T1,T2));
+  T1->_delete(10);
+  T2->update(10,5);
+  EXPECT_TRUE(isomorphic_bst(T1,T2));
+}
