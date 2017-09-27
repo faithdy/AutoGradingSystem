@@ -4,15 +4,15 @@
 #include "../assignment/project_1/2000000000/Region.h"
 #include "../assignment/project_1/2000000000/Employment.h"
 #include "../assignment/project_1/2000000000/BST.h"
+#include "../assignment/project_1/2000000000/List_Circular.h"
+#include "../assignment/project_1/2000000000/List_2D.h"
+
 
 using namespace std;
 
-template<typename T>
-bool isomorphic_bst(T* M1, T* M2);
-template<typename T>
-bool isomorphic_cll(T* M1, T* M2);
-template<typename T>
-bool isomorphic_2dll(T* M1, T* M2);
+bool isomorphic_bst(BST* M1, BST* M2);
+bool isomorphic_cll(List_Circular* M1, List_Circular* M2);
+bool isomorphic_2dll(List_2D* M1, List_2D* M2);
 template<typename T>
 bool isomorphic_linkedlist(T* M1, T* M2);
 template<typename T>
@@ -25,16 +25,22 @@ bool isomorphic_node_iterative(T* M1, T* M2);
 bool isDataNotEqual(Region* M1, Region* M2);
 bool isDataNotEqual(Employment* M1, Employment* M2);
 
-template<typename T>
-bool isIsomorphic(T* M1, T* M2) {
+bool isIsomorphic(BST* M1, BST* M2) {
 	if(typeid(*M1) == typeid(BST))							     return isomorphic_bst(M1, M2);
-	else if(typeid(*M1) == typeid(List_Circular))   return isomorphic_cll(M1, M2);
-	else if(typeid(*M1) == typeid(List_2D))         return isomorphic_2dll(M1, M2);
 	else                               return false;
 }
 
-template<typename T>
-bool isomorphic_bst(T* M1, T* M2) {
+bool isIsomorphic(List_Circular* M1, List_Circular* M2) {
+	if(typeid(*M1) == typeid(List_Circular))   return isomorphic_cll(M1, M2);
+	else                               return false;
+}
+bool isIsomorphic(List_2D* M1, List_2D* M2) {
+	if(typeid(*M1) == typeid(List_2D))         return isomorphic_2dll(M1, M2);
+	else                               return false;
+}
+
+
+bool isomorphic_bst(BST* M1, BST* M2) {
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;
@@ -43,8 +49,8 @@ bool isomorphic_bst(T* M1, T* M2) {
   return isomorphic_binarynode(M1->root, M2->root);
 }
 
-template<typename T>
-bool isomorphic_cll(T* M1, T* M2) {
+
+bool isomorphic_cll(List_Circular* M1, List_Circular* M2) {
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;
@@ -53,8 +59,7 @@ bool isomorphic_cll(T* M1, T* M2) {
   return isomorphic_node_iterative(M1->pHead, M2->pHead);
 }
 
-template<typename T>
-bool isomorphic_2dll(T* M1, T* M2) {
+bool isomorphic_2dll(List_2D* M1, List_2D* M2) {
   /*assume one of input parameters has not null.
     because assistant's code is always right.*/
   if(M1 == NULL && M2 == NULL) return true;
@@ -109,16 +114,16 @@ bool isomorphic_node_iterative(T* M1, T* M2) {
   if(M1 == NULL && M2 == NULL) return true;
   if(M1 == NULL || M2 == NULL) return false;
 
-  if(M1->value != M2->value) return false;
+  if(isDataNotEqual(M1, M2)) return false;
   while(true) {
-    if((M1 = M1->next)==NULL) return false;
-    if((M2 = M2->next)==NULL) return false;
+    if((M1 = M1->pNext)==NULL) return false;
+    if((M2 = M2->pNext)==NULL) return false;
 
-    if(M1->value != M2->value) return false;
+		if(isDataNotEqual(M1, M2)) return false;
 
     if(M1 == Root1 && M2 == Root2) return true;
     if(M1 == Root1 || M2 == Root2) return false;
-  };
+  }
 }
 
 bool isDataNotEqual(Region* M1, Region* M2) {
