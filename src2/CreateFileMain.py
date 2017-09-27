@@ -4,6 +4,7 @@ from os import getcwd, chdir
 from xml.etree.ElementTree import parse
 import glob
 import configparser
+import re
 import sys
 import subprocess
 import codecs
@@ -11,6 +12,8 @@ import shutil
 import Scenario
 import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
+import CreateUnitMakeFile as CUMF
+import CreateUnitTest as CUT
 
 #project_name = sys.argv[1]
 project_name = 'project_1'
@@ -71,19 +74,22 @@ def PublicReplace(headers):
         f.close()
         new_file = codecs.open(header,'w', encoding='utf8')
         for line in read_file.split("\n"):
-            new_file.write(line.replace('private', 'public'))
+            new_file.write(line.replace('private', 'public')+'\n')
         new_file.close()
 
-def GetDeathFailList(student_dir,xml):
-    student_dir = abspath(student_dir)
-    tree = parse(student_dir,xml)
+def GetDeathFailList(student_path, xml):
+    student_path = abspath('../' + student_path)
+    tree = parse(join(student_path,xml))
     root = tree.getroot()
     arr = []
 
     for test in root.iter("testcase") :
         if test.find("failure") is None :
             arr.append(test.attrib["name"])
-
+        else :
+            for fail in test.iter("failure") :
+                if bool(re.search('failed to die',fail.attrib["message"])) is False :
+                    arr.append(test.attrib["name"])
     return arr
 
 
@@ -105,15 +111,19 @@ for student_path in student_list:
 
     CDMF.CreateMakeFile(student_path, filepaths, classes)
 
-    print(student_path)
-
-
     chdir(student_path)
     subprocess.call('make', shell=True)
     subprocess.call('./DeathTest --gtest_output=\"xml:./DeathReport.xml\"', shell=True)
-    fail_scenario = GetDeathFailList(student_dir, './DeathReport.xml')
+    try:
+        fail_scenario = GetDeathFailList(student_path, 'DeathReport.xml')
+        CUT.MakeUnitTest(student_path, filepaths, config, fail_scenario)
+    except:
+        print("No DeathReport\n")
+
+    CUMF.CreateMakeFile(student_path, filepaths, classes)
+    subprocess.call('make', shell=True)
+    subprocess.call('./UnitTest --gtest_output=\"xml:./UnitReport.xml\"', shell=True)
 
 
-    #faillist = parsing(xml)
 
-    #makeunittest(faillist)
+
