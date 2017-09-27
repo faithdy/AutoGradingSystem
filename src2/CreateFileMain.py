@@ -1,9 +1,11 @@
 
 from os.path import join, basename, splitext, isdir, abspath
-from os import getcwd
+from os import getcwd, chdir
+from xml.etree.ElementTree import parse
 import glob
 import configparser
 import sys
+import subprocess
 import codecs
 import shutil
 import Scenario
@@ -72,11 +74,26 @@ def PublicReplace(headers):
             new_file.write(line.replace('private', 'public'))
         new_file.close()
 
+def GetDeathFailList(student_dir,xml):
+    student_dir = abspath(student_dir)
+    tree = parse(student_dir,xml)
+    root = tree.getroot()
+    arr = []
+
+    for test in root.iter("testcase") :
+        if test.find("failure") is None :
+            arr.append(test.attrib["name"])
+
+    return arr
+
+
 student_list = GetStudentList(student_dir)
 
 config = GetConfig(config_path)
 
+origin_wd = getcwd()
 for student_path in student_list:
+    chdir(origin_wd)
     filepaths, classes = CDT.GetClass(student_path)
     PublicReplace(filepaths)
 
@@ -88,9 +105,14 @@ for student_path in student_list:
 
     CDMF.CreateMakeFile(student_path, filepaths, classes)
 
-    #bash commnad(make)
-    #bash(gcc deathtest.)
-    #bash(./deathtest -- xml)
+    print(student_path)
+
+
+    chdir(student_path)
+    subprocess.call('make', shell=True)
+    subprocess.call('./DeathTest --gtest_output=\"xml:./DeathReport.xml\"', shell=True)
+    fail_scenario = GetDeathFailList(student_dir, './DeathReport.xml')
+
 
     #faillist = parsing(xml)
 

@@ -51,18 +51,13 @@ def CreateMakeFile(student_dir, path, classes):
     wf.write('$(GTEST_HEADERS)\n\t')
     wf.write('$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ' + join(student_dir, 'DeathTest.cpp') + '\n')
 
+
     wf.write('DeathTest : ')
     for Class in classes:
         wf.write(Class + '.o ')
     wf.write(
         "DeathTest.o ../../../AutoGradingSystem/gtest-1.7.0/gtest_main.a\n"
-        "\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h\n\n")
-
-    wf.write('main : ')
-    for Class in classes:
-        wf.write(Class + '.o ')
-    wf.write(
-        "main.cpp\n\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h")
+        "\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h\n")
 
     wf.close()
 
