@@ -16,7 +16,7 @@ def GetClass(path):
 def MakeDeathTest(student_dir, path, config):
     student_dir = abspath(student_dir)
     fixture = 'TEST_F(' + config['name'] + ', '
-    assertion = '\tASSERT_DEATH('
+    assertion = '\tEXPECT_DEATH('
     expectation = ', \"segmentation fault\");\n'
 
     with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:

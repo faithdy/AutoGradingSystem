@@ -55,7 +55,7 @@ def CreateMakeFile(student_dir, path, classes):
     for Class in classes:
         wf.write(Class + '.o ')
     wf.write(
-        "DeathTest.o ../../../gtest-1.7.0/gtest_main.a\n"
+        "DeathTest.o ../../../AutoGradingSystem/gtest-1.7.0/gtest_main.a\n"
         "\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h\n\n")
 
     wf.write('main : ')

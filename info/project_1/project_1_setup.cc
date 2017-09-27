@@ -5,19 +5,24 @@ class project_1 : public testing::Test{
     virtual void SetUp(){
     }
 
-    char* To_Traversal(Manager m)
-    {
-        return 'abc';
-    }
+  int test(int a){
+    struct sigaction sa;
+    set_sigaction(sa);
+    alarm(3);
 
-    template <T>
-    T* deserialize(string filename){
+    int b;
+    b = a/0;
+    return 0;
+  }
 
-        T* result = new T;
+  int test2(int a)
+  {
+    struct sigaction sa;
+    set_sigaction(sa);
+    alarm(3);
 
-        result = open(filename ,'rb');
+    while(1);
+    return 0;
+  }
 
-        return result
-    }
-
-}
+};
