@@ -1,3 +1,12 @@
+#include <iostream>
+#include <typeinfo>
+#include <string>
+#include "../assignment/project_1/2000000000/Region.h"
+#include "../assignment/project_1/2000000000/Employment.h"
+#include "../assignment/project_1/2000000000/BST.h"
+
+using namespace std;
+
 template<typename T>
 bool isomorphic_bst(T* M1, T* M2);
 template<typename T>
@@ -13,16 +22,14 @@ bool isomorphic_binarynode(T* M1, T* M2);
 template<typename T>
 bool isomorphic_node_iterative(T* M1, T* M2);
 
-void isDataNotEqual(Region* M1, Region* M2);
-void isDataNotEqual(Employment* M1, Employment* M2);
+bool isDataNotEqual(Region* M1, Region* M2);
+bool isDataNotEqual(Employment* M1, Employment* M2);
 
 template<typename T>
 bool isIsomorphic(T* M1, T* M2) {
-	string name = typeid(T1).name();
-
-	if(name == "BST")	                 return isomorphic_bst(M1, M2);
-	else if(name == "List_Circular")   return isomorphic_cll(M1, M2);
-	else if(name == "List_2D")         return isomorphic_2dll(M1, M2);
+	if(typeid(*M1) == typeid(BST))							     return isomorphic_bst(M1, M2);
+	else if(typeid(*M1) == typeid(List_Circular))   return isomorphic_cll(M1, M2);
+	else if(typeid(*M1) == typeid(List_2D))         return isomorphic_2dll(M1, M2);
 	else                               return false;
 }
 
@@ -114,12 +121,12 @@ bool isomorphic_node_iterative(T* M1, T* M2) {
   };
 }
 
-void isDataNotEqual(Region* M1, Region* M2) {
+bool isDataNotEqual(Region* M1, Region* M2) {
   return strcmp(M1->rCodeName.first,M2->rCodeName.first)
     || strcmp(M1->rCodeName.second,M2->rCodeName.second);
 }
 
-void isDataNotEqual(Employment* M1, Employment* M2) {
+bool isDataNotEqual(Employment* M1, Employment* M2) {
   return  strcmp(M1->rCodeName.first,M2->rCodeName.first) ||
           strcmp(M1->rCodeName.second,M2->rCodeName.second) ||
           strcmp(M1->company,M2->company) ||
