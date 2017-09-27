@@ -8,7 +8,11 @@ def MakeUnitTest(student_dir, path, config, faillist):
     fixture = 'TEST_F(' + config['name'] + ', '
     expection = '\tEXPECT_TRUE('
 
+<<<<<<< HEAD
     with open(join(student_dir,'UnitTest.cc'), 'w') as wf:
+=======
+    with open(join(student_dir,'UnitTest.cpp'), 'w') as wf:
+>>>>>>> origin/master
 
         for p in path:
             wf.write('#include \"' + abspath(p) + '\"\n')
