@@ -5,19 +5,9 @@ class project_1 : public testing::Test{
     virtual void SetUp(){
     }
 
-    char* To_Traversal(Manager m)
-    {
-        return 'abc';
+
+    int test(int num){
+        num / 0;
+        return 0;
     }
-
-    template <T>
-    T* deserialize(string filename){
-
-        T* result = new T;
-
-        result = open(filename ,'rb');
-
-        return result
-    }
-
-}
+};

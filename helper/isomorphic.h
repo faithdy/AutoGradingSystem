@@ -1,9 +1,13 @@
 #include <iostream>
 #include <typeinfo>
 #include <string>
-#include "../assignment/project_1/2000000000/Region.h"
-#include "../assignment/project_1/2000000000/Employment.h"
-#include "../assignment/project_1/2000000000/BST.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/List_2D.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Management.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Region.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/List_Circular.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Employment.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/BST.h"
+
 
 using namespace std;
 

@@ -1,11 +1,11 @@
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/List_2D.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/Management.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/Region.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/List_Circular.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/Employment.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000000/BST.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/List_2D.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Management.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Region.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/List_Circular.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/Employment.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000000/BST.h"
 #include "../../../src/signal.h"
-#include "../../../hepler/isomorphic.h"
+#include "../../../helper/isomorphic.h"
 #include "gtest/gtest.h"
 
 using namespace std;

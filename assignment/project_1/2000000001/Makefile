@@ -10,11 +10,11 @@ all : $(TESTS)
 clean :
 		rm -f $(TESTS) gtest_main.a *.o 
 
-test.o : /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test.cc /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFALGS) $(CXXFLAGS) -c /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test.cc
-test1.o : /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test1.cc /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test1.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFALGS) $(CXXFLAGS) -c /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test1.cc
-Death_Test.o : /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/DeathTest.cc /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test.h /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/test1.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c /home/youngjae/Desktop/ASS/assignment/project_1/2000000001/DeathTest.cc
+test.o : /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test.cc /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFALGS) $(CXXFLAGS) -c /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test.cc
+test1.o : /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test1.cc /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test1.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFALGS) $(CXXFLAGS) -c /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test1.cc
+Death_Test.o : /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/DeathTest.cc /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test.h /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/test1.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c /home/youngjae/AutoGradingSystem/assignment/project_1/2000000001/DeathTest.cc
 Death_Test : test.o test1.o Death_Test.o ../../../gtest-1.7.0/gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h

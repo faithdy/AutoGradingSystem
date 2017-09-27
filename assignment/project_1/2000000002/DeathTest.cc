@@ -1,7 +1,7 @@
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000002/test.h"
-#include "/home/youngjae/Desktop/ASS/assignment/project_1/2000000002/test1.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000002/test.h"
+#include "/home/youngjae/AutoGradingSystem/assignment/project_1/2000000002/test1.h"
 #include "../../../src/signal.h"
-#include "../../../hepler/isomorphic.h"
+#include "../../../helper/isomorphic.h"
 #include "gtest/gtest.h"
 
 using namespace std;
