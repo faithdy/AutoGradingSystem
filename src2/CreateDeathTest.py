@@ -19,13 +19,13 @@ def MakeDeathTest(student_dir, path, config):
     assertion = '\tASSERT_DEATH('
     expectation = ', \"segmentation fault\");\n'
 
-    with open(join(student_dir,'DeathTest.cc'), 'w') as wf:
+    with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:
 
         for p in path:
             wf.write('#include \"' + abspath(p) + '\"\n')
 
-        wf.write("#include \"../../../src/signal.h\"\n")
-        wf.write("#include \"../../../hepler/isomorphic.h\"\n")
+        wf.write("#include \"../../../AutoGradingSystem/src/signal.h\"\n")
+        wf.write("#include \"../../../AutoGradingSystem/helper/isomorphic.h\"\n")
         wf.write("#include \"gtest/gtest.h\"\n\n")
 
         #for l in config['setup']:

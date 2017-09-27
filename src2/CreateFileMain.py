@@ -4,6 +4,8 @@ from os import getcwd
 import glob
 import configparser
 import sys
+import codecs
+import shutil
 import Scenario
 import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
@@ -13,7 +15,7 @@ project_name = 'project_1'
 
 pwd = getcwd()
 
-student_dir = join(r'../assignment',project_name)
+student_dir = join(r'../../assignment',project_name)
 info_dir = join(r'../info', project_name)
 config_path = join(info_dir, project_name + '.conf')
 
@@ -59,12 +61,25 @@ def GetStudentClass(path):
 
     return headers, basenames
 
+def PublicReplace(headers):
+    for header in headers:
+        shutil.copy(header, header.replace(".h",".bak"))
+        f = codecs.open(header, 'r', encoding='utf8')
+        read_file = f.read()
+        f.close()
+        new_file = codecs.open(header,'w', encoding='utf8')
+        for line in read_file.split("\n"):
+            new_file.write(line.replace('private', 'public'))
+        new_file.close()
+
 student_list = GetStudentList(student_dir)
 
 config = GetConfig(config_path)
 
 for student_path in student_list:
     filepaths, classes = CDT.GetClass(student_path)
+    PublicReplace(filepaths)
+
 
     if filepaths == False:
         continue
