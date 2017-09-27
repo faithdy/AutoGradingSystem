@@ -5,7 +5,7 @@ from os.path import join, abspath
 
 gtest_dir = 'GTEST_DIR = ../../../gtest-1.7.0\n'
 sig_dir = 'SIG_DIR = ../../../src\n'
-helper_dir = 'HELPER_DIR = ../helper\n'
+helper_dir = 'HELPER_DIR = ../../../helper\n'
 cpp_flags = 'CPPFLAGS += -isystem $(GTEST_DIR)/include\n'
 cxx_flags = 'CXXFLAGS += -g -Wall -Wextra -pthread\n'
 test = 'TESTS = DeathTest\n'
