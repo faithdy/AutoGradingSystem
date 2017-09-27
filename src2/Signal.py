@@ -33,8 +33,4 @@ def findClass(filepath):
 						line = line.replace(oc[0], "")
 						new_file.write(line+"\n" + sig + oc[0] + '\n')
 
-		#print(test)
 		new_file.close()
-
-
-findClass(["./BST.cc"])

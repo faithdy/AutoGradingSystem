@@ -7,6 +7,7 @@ class Scenario:
 
     def __init__(self, name):
         self.function_name = name
+        self.functions = []
 
     def SetScenario(self, cfg):
         self.function_count = int(cfg.get(self.function_name, 'function_count'))
