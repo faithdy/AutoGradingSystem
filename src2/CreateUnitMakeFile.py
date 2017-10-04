@@ -41,7 +41,7 @@ def CreateMakeFile(student_dir, path, classes):
     for i in range(0, len(classes)):
         cc = path[i].replace('.h','.cpp')
         wf.write(classes[i] + '.o : ' + cc + ' ' + path[i] + ' $(GTEST_HEADERS)\n')
-        wf.write('\t$(CXX) $(CPPFALGS) $(CXXFLAGS) -c ' + cc + '\n')
+        wf.write('\t$(CXX) $(CPPFALGS) $(CXXFLAGS) -w -c ' + cc + '\n')
 
     wf.write('UnitTest.o : ' + join(student_dir, 'UnitTest.cpp') + ' ')
 
@@ -49,7 +49,7 @@ def CreateMakeFile(student_dir, path, classes):
         wf.write(p + ' ')
 
     wf.write('$(GTEST_HEADERS)\n\t')
-    wf.write('$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c ' + join(student_dir, 'UnitTest.cpp') + '\n')
+    wf.write('$(CXX) $(CPPFLAGS) $(CXXFLAGS) -w -c ' + join(student_dir, 'UnitTest.cpp') + '\n')
 
 
     wf.write('UnitTest : ')
@@ -57,7 +57,6 @@ def CreateMakeFile(student_dir, path, classes):
         wf.write(Class + '.o ')
     wf.write(
         "UnitTest.o ../../../AutoGradingSystem/gtest-1.7.0/gtest_main.a\n"
-        "\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h\n")
+        "\t$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -w -o $@ $(SIG_DIR)/signal.h $(SIG_DIR)/signal.cc $(HELPER_DIR)/isomorphic.h\n")
 
     wf.close()
-

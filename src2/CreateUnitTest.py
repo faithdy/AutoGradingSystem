@@ -30,11 +30,11 @@ def MakeUnitTest(student_dir, path, config, faillist):
             wf.write(fixture + "unit_"+scenario.function_name + ')\n{\n')
 
             for i in scenario.death_index:
-                wf.write('\t' + scenario.functions[int(i)]+"\n")
+                wf.write('\t' + scenario.functions[int(i)]+";\n")
             for i in range(scenario.function_count):
                 if str(i) in scenario.death_index:
                     continue
                 else:
-                    wf.write(expection + scenario.functions[int(i)] + ')\n')
+                    wf.write(expection + scenario.functions[int(i)] + ');\n')
 
             wf.write('}\n\n')
