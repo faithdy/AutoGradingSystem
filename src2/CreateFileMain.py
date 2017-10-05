@@ -15,7 +15,6 @@ import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
 import CreateUnitMakeFile as CUMF
 import CreateUnitTest as CUT
-import Signal
 
 #project_name = sys.argv[1]
 project_name = 'project_1'
@@ -60,13 +59,6 @@ def GetStudentList(path):
     dirs = [f for f in files if isdir(f)]
 
     return dirs
-
-
-def GetStudentClass(path):
-    headers = glob.glob(join(path, "**/*.h"), recursive=True)
-    basenames = [splitext(basename(header))[0] for header in headers]  # File name
-
-    return headers, basenames
 
 def PublicReplace(headers, student_path):
     for header in headers:
@@ -134,18 +126,20 @@ def GetDeathFailList(student_path, xml):
 
 def main_process(student_path, config):
     bak = join(student_path,'bak')
+
     if not exists(bak):
         print("Make %s directory......" %bak)
         mkdir(bak)
 
     filepaths, classes = CDT.GetClass(student_path)
-    cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
-    PublicReplace(filepaths, student_path)
-    #Signal.findClass(cppfilepaths)
-
 
     if filepaths == False:
         return
+
+
+    cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
+    PublicReplace(filepaths, student_path)
+    #InsertSignal(cppfilepaths)
 
     CDT.MakeDeathTest(student_path, filepaths, config)
 
