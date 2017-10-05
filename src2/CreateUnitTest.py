@@ -23,19 +23,18 @@ def MakeUnitTest(student_dir, path, config, faillist):
         for scenario in config['scenarios']:
             if faillist == None:
                 pass
+
             elif scenario.function_name in faillist:
                 continue
+
             else:
-                pass
-            this_fixture = fixture + scenario.test_fixture + ', '
-            wf.write(this_fixture + "unit_"+scenario.function_name + ')\n{\n')
+                this_fixture = fixture + scenario.test_fixture + ', '
+                wf.write(this_fixture + "unit_"+scenario.function_name + ')\n{\n')
 
-            for i in scenario.death_index:
-                wf.write('\t' + scenario.functions[int(i)]+";\n")
-            for i in range(scenario.function_count):
-                if str(i) in scenario.death_index:
-                    continue
-                else:
-                    wf.write(expection + scenario.functions[int(i)] + ');\n')
+                for i in range(0,len(scenario.functions)):
+                    if str(i) in scenario.death_index:
+                        wf.write('\t' + scenario.functions[int(i)] + ";\n")
+                    else:
+                        wf.write(expection + scenario.functions[int(i)] + ');\n')
 
-            wf.write('}\n\n')
+                wf.write('}\n\n')
