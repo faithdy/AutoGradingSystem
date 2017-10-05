@@ -15,7 +15,7 @@ def GetClass(path):
 
 def MakeDeathTest(student_dir, path, config):
     student_dir = abspath(student_dir)
-    fixture = 'TEST_F(' + config['name'] + ', '
+    fixture = 'TEST_F('
     assertion = '\tEXPECT_DEATH('
     expectation = ', \"segmentation fault\");\n'
 
@@ -34,7 +34,8 @@ def MakeDeathTest(student_dir, path, config):
         wf.write(config['setup']+'\n')
 
         for scenario in config['scenarios']:
-            wf.write(fixture + scenario.function_name + ')\n{\n')
+            this_fixture = fixture + scenario.test_fixture + ', '
+            wf.write(this_fixture + scenario.function_name + ')\n{\n')
 
             for i in scenario.death_index:
                 wf.write(assertion + scenario.functions[int(i)] + expectation)

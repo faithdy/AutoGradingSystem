@@ -5,7 +5,7 @@ import re
 
 def MakeUnitTest(student_dir, path, config, faillist):
     student_dir = abspath('../' + student_dir)
-    fixture = 'TEST_F(' + config['name'] + ', '
+    fixture = 'TEST_F('
     expection = '\tEXPECT_TRUE('
 
 
@@ -27,7 +27,8 @@ def MakeUnitTest(student_dir, path, config, faillist):
                 continue
             else:
                 pass
-            wf.write(fixture + "unit_"+scenario.function_name + ')\n{\n')
+            this_fixture = fixture + scenario.test_fixture + ', '
+            wf.write(this_fixture + "unit_"+scenario.function_name + ')\n{\n')
 
             for i in scenario.death_index:
                 wf.write('\t' + scenario.functions[int(i)]+";\n")
