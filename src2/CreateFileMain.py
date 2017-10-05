@@ -1,7 +1,8 @@
 
-from os.path import join, basename, splitext, isdir, abspath
-from os import getcwd, chdir
+from os.path import join, basename, splitext, isdir, abspath, exists
+from os import getcwd, chdir, mkdir
 from xml.etree.ElementTree import parse
+from multiprocessing import Process
 import glob
 import configparser
 import re
@@ -14,6 +15,7 @@ import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
 import CreateUnitMakeFile as CUMF
 import CreateUnitTest as CUT
+import Signal
 
 #project_name = sys.argv[1]
 project_name = 'project_1'
@@ -66,9 +68,10 @@ def GetStudentClass(path):
 
     return headers, basenames
 
-def PublicReplace(headers):
+def PublicReplace(headers, student_path):
     for header in headers:
-        shutil.copy(header, header.replace(".h",".bak"))
+        #shutil.copy(header, join('./bak', header.replace(".h",".bak")))
+        shutil.copy(header, join(student_path,'bak'))
         f = codecs.open(header, 'r', encoding='utf8')
         read_file = f.read()
         f.close()
@@ -129,17 +132,64 @@ def GetDeathFailList(student_path, xml):
                     arr.append(test.attrib["name"])
     return arr
 
+def main_process(student_path, config):
+    bak = join(student_path,'bak')
+    if not exists(bak):
+        print("Make %s directory......" %bak)
+        mkdir(bak)
 
-student_list = GetStudentList(student_dir)
+    filepaths, classes = CDT.GetClass(student_path)
+    cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
+    PublicReplace(filepaths, student_path)
+    #Signal.findClass(cppfilepaths)
 
-config = GetConfig(config_path)
 
-origin_wd = getcwd()
+    if filepaths == False:
+        return
+
+    CDT.MakeDeathTest(student_path, filepaths, config)
+
+    CDMF.CreateMakeFile(student_path, filepaths, classes)
+
+    chdir(student_path)
+    subprocess.call('make', shell=True)
+    subprocess.call('./DeathTest --gtest_output=\"xml:./DeathReport.xml\"', shell=True)
+    try:
+        fail_scenario = GetDeathFailList(student_path, 'DeathReport.xml')
+        CUT.MakeUnitTest(student_path, filepaths, config, fail_scenario)
+    except:
+        print("No DeathReport\n")
+
+    CUMF.CreateMakeFile(student_path, filepaths, classes)
+    subprocess.call('make', shell=True)
+    subprocess.call('./UnitTest --gtest_output=\"xml:./UnitReport.xml\"', shell=True)
+
+
+if __name__ == "__main__":
+
+    student_list = GetStudentList(student_dir)
+
+    config = GetConfig(config_path)
+
+    origin_wd = getcwd()
+    procs = []
+
+    for i in range(len(student_list)):
+        procs.append(Process(target=main_process, args=(student_list[i], config)));
+
+    for p in procs:
+        print('excute process')
+        print(p)
+        p.start()
+
+
+'''
 for student_path in student_list:
     chdir(origin_wd)
     filepaths, classes = CDT.GetClass(student_path)
+    cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
     PublicReplace(filepaths)
-    #InsertSignal(filepaths)
+    #Signal.findClass(cppfilepaths)
 
 
     if filepaths == False:
@@ -161,7 +211,7 @@ for student_path in student_list:
     CUMF.CreateMakeFile(student_path, filepaths, classes)
     subprocess.call('make', shell=True)
     subprocess.call('./UnitTest --gtest_output=\"xml:./UnitReport.xml\"', shell=True)
-
+'''
 
 
 

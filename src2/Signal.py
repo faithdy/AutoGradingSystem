@@ -5,7 +5,7 @@ def findClass(filepath):
 
 	sig = "struct sigaction sa;\nset_sigaction(sa);\nalarm(3);\n"
 	for f in filepath :
-		shutil.copy(f, f.replace(".cc",".cc.bak"))
+		shutil.copy(f, f.replace(".cpp",".cpp.bak"))
 		fi = codecs.open(f, 'r', encoding='utf8')
 		read_file=fi.read()
 		fi.close()
