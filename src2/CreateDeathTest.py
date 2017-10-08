@@ -3,7 +3,8 @@ from os.path import join, basename, splitext, abspath
 import glob
 
 def GetClass(path):
-    allFiles = glob.glob(join(path, "**/*.h"), recursive=True)
+    #allFiles = glob.glob(join(path, "**/*.h"), recursive=True)
+    allFiles = glob.glob(join(path, '*.h'))
 
     files = [f for f in allFiles]
     try:
