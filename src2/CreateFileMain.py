@@ -60,10 +60,11 @@ def GetStudentList(path):
 
     return dirs
 
-def PublicReplace(headers, student_path):
+def PublicReplace(headers, student_path, isFirst):
     for header in headers:
         #shutil.copy(header, join('./bak', header.replace(".h",".bak")))
-        shutil.copy(header, join(student_path,'bak'))
+        if isFirst == True:
+            shutil.copy(header, join(student_path,'bak'))
         f = codecs.open(header, 'r', encoding='utf8')
         read_file = f.read()
         f.close()
@@ -125,11 +126,14 @@ def GetDeathFailList(student_path, xml):
     return arr
 
 def main_process(student_path, config):
+    isFirst = False
+
     bak = join(student_path,'bak')
 
     if not exists(bak):
         print("Make %s directory......" %bak)
         mkdir(bak)
+        isFirst = True
 
     filepaths, classes = CDT.GetClass(student_path)
 
@@ -138,7 +142,7 @@ def main_process(student_path, config):
 
 
     cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
-    PublicReplace(filepaths, student_path)
+    PublicReplace(filepaths, student_path, isFirst)
     #InsertSignal(cppfilepaths)
 
     CDT.MakeDeathTest(student_path, filepaths, config)
