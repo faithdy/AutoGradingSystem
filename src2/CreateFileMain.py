@@ -65,51 +65,54 @@ def PublicReplace(headers, student_path, isFirst):
         #shutil.copy(header, join('./bak', header.replace(".h",".bak")))
         if isFirst == True:
             shutil.copy(header, join(student_path,'bak'))
-        f = codecs.open(header, 'r', encoding='utf8')
-        read_file = f.read()
-        f.close()
-        new_file = codecs.open(header,'w', encoding='utf8')
-        for line in read_file.split("\n"):
-            new_file.write(line.replace('private', 'public')+'\n')
-        new_file.close()
+            f = codecs.open(header, 'r', encoding='utf8')
+            read_file = f.read()
+            f.close()
+            new_file = codecs.open(header,'w', encoding='utf8')
+            for line in read_file.split("\n"):
+                new_file.write(line.replace('private', 'public')+'\n')
+            new_file.close()
 
 def InsertSignal(filepath, student_path, isFirst):
 
     #filepath =  [f.replace('.h', '.cc') for f in filepath]
     count = 0
     sig = "struct sigaction sa;\nset_sigaction(sa);\nalarm(3);\n"
+    header = '#include "../../../AutoGradingSystem/src/signal.h"\n'
+
     for f in filepath :
         #shutil.copy(f, f.replace(".cc",".cc.bak"))
         if isFirst == True:
             shutil.copy(f, join(student_path,'bak'))
-        fi = codecs.open(f, 'r', encoding='utf8')
-        read_file=fi.read()
-        fi.close()
-        new_file = codecs.open(f,'w',encoding='utf8')
-        for line in read_file.split("\n"):
-            re.sub(r'\s+', ' ',line)
-            mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",line,re.S)
-            if mc :
-                nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",line,re.S)
-                if  not nc:
-                    new_file.write(line)
-                    count = 1
-                else :
-                    line = line.replace(nc[2],"")
-                    new_file.write(line+'\n'+sig+nc[2]+'\n')
-            else:
-                if count == 0 :
-                    new_file.write(line+'\n')
-                else :
-                    count = 0
-                    oc = re.findall(r'\{( \w+|\w+)',line,re.S)
-                    if not oc :
-                        new_file.write(line+"\n"+sig)
+            fi = codecs.open(f, 'r', encoding='utf8')
+            read_file=fi.read()
+            fi.close()
+            new_file = codecs.open(f,'w',encoding='utf8')
+            new_file.write(header)
+            for line in read_file.split("\n"):
+                re.sub(r'\s+', ' ',line)
+                mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",line,re.S)
+                if mc :
+                    nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",line,re.S)
+                    if  not nc:
+                        new_file.write(line)
+                        count = 1
                     else :
-                        line = line.replace(oc[0], "")
-                        new_file.write(line+"\n" + sig + oc[0] + '\n')
+                        line = line.replace(nc[2],"")
+                        new_file.write(line+'\n'+sig+nc[2]+'\n')
+                else:
+                    if count == 0 :
+                        new_file.write(line+'\n')
+                    else :
+                        count = 0
+                        oc = re.findall(r'\{( \w+|\w+)',line,re.S)
+                        if not oc :
+                            new_file.write(line+"\n"+sig)
+                        else :
+                            line = line.replace(oc[0], "")
+                            new_file.write(line+"\n" + sig + oc[0] + '\n')
 
-        new_file.close()
+            new_file.close()
 
 
 def GetDeathFailList(student_path, xml):
@@ -126,6 +129,10 @@ def GetDeathFailList(student_path, xml):
                 if bool(re.search('failed to die',fail.attrib["message"])) is False :
                     arr.append(test.attrib["name"])
     return arr
+
+def RemoveCR(filepaths):
+    for f in filepaths:
+        subprocess.call('sed -i -e \'s/\r$//\' '+f, shell=True)
 
 def main_process(student_path, config):
     isFirst = False
@@ -146,6 +153,7 @@ def main_process(student_path, config):
     cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
     PublicReplace(filepaths, student_path, isFirst)
     InsertSignal(cppfilepaths, student_path, isFirst)
+    RemoveCR(cppfilepaths)
 
     CDT.MakeDeathTest(student_path, filepaths, config)
 
