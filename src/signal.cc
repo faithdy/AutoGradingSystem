@@ -73,7 +73,6 @@ void sigaction(int signal, siginfo_t *si, void *arg)
 	}
 	else if(signal == SIGXFSZ) {
 		cerr<<"file size over";
-		exit(-1);
 	}
 }
 

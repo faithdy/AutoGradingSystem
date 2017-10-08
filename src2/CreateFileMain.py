@@ -73,17 +73,19 @@ def PublicReplace(headers, student_path, isFirst):
             new_file.write(line.replace('private', 'public')+'\n')
         new_file.close()
 
-def InsertSignal(filepath):
+def InsertSignal(filepath, student_path, isFirst):
 
-    filepath =  [f.replace('.h', '.cc') for f in filepath]
+    #filepath =  [f.replace('.h', '.cc') for f in filepath]
     count = 0
     sig = "struct sigaction sa;\nset_sigaction(sa);\nalarm(3);\n"
     for f in filepath :
-        shutil.copy(f, f.replace(".cc",".cc.bak"))
+        #shutil.copy(f, f.replace(".cc",".cc.bak"))
+        if isFirst == True:
+            shutil.copy(f, join(student_path,'bak'))
         fi = codecs.open(f, 'r', encoding='utf8')
         read_file=fi.read()
         fi.close()
-        new_file = codecs.open(f,'w',encoding='utf16')
+        new_file = codecs.open(f,'w',encoding='utf8')
         for line in read_file.split("\n"):
             re.sub(r'\s+', ' ',line)
             mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",line,re.S)
@@ -143,7 +145,7 @@ def main_process(student_path, config):
 
     cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
     PublicReplace(filepaths, student_path, isFirst)
-    #InsertSignal(cppfilepaths)
+    InsertSignal(cppfilepaths, student_path, isFirst)
 
     CDT.MakeDeathTest(student_path, filepaths, config)
 
