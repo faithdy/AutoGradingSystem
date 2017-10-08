@@ -12,52 +12,68 @@ void sigaction(int signal, siginfo_t *si, void *arg)
 		exit(-1);
 	}
 	else if(signal == SIGABRT) {
-		cerr<<"core dumped"
+		cerr<<"core dumped";
+		exit(-1);
 	}
 	else if(signal == SIGBUS) {
-		cerr<<"core dumped"
+		cerr<<"core dumped";
+		exit(-1);
 	}
 	else if(signal == SIGFPE) {
-		cerr<<"arithmetic error"
+		cerr<<"arithmetic error";
+		exit(-1);
 	}
 	else if(signal == SIGHUP) {
-		cerr<<"hang up"
+		cerr<<"hang up";
+		exit(-1);
 	}
 	else if(signal == SIGILL) {
-		cerr<<"invalid command"
+		cerr<<"invalid command";
+		exit(-1);
 	}
 	else if(signal == SIGINT) {
-		cerr<<"terminal interrupt"
+		cerr<<"terminal interrupt";
+		exit(-1);
 	}
 	else if(signal == SIGKILL) {
-		cerr<<"signal kill"
+		cerr<<"signal kill";
+		exit(-1);
 	}
 	else if(signal == SIGQUIT) {
-		cerr<<"terminal exited"
+		cerr<<"terminal exited";
+		exit(-1);
 	}
 	else if(signal == SIGSTOP) {
-		cerr<<"signal stopped"
+		cerr<<"signal stopped";
+		exit(-1);
 	}
 	else if(signal == SIGSYS) {
-		cerr<<"invalid system call"
+		cerr<<"invalid system call";
+		exit(-1);
 	}
 	else if(signal == SIGTERM) {
-		cerr<<"signal termination"
+		cerr<<"signal termination";
+		exit(-1);
 	}
 	else if(signal == SIGTRAP) {
-		cerr<<"trace/break point trap called"
+		cerr<<"trace/break point trap called";
+		exit(-1);
 	}
 	else if(signal == SIGTTIN) {
-		cerr<<"background process on"
+		cerr<<"background process on";
+		exit(-1);
 	}
 	else if(signal == SIGTTOU) {
-		cerr<<"background process on"
+		cerr<<"background process on";
+		exit(-1);
 	}
 	else if(signal == SIGXCPU) {
-		cerr<<"cpu time over"
+		cerr<<"cpu time over";
+		exit(-1);
 	}
 	else if(signal == SIGXFSZ) {
-		cerr<<"file size over"
+		cerr<<"file size over";
+		exit(-1);
 	}
 }
 
