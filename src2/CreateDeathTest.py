@@ -36,7 +36,7 @@ def MakeDeathTest(student_dir, path, config):
 
         for scenario in config['scenarios']:
             this_fixture = fixture + scenario.test_fixture + ', '
-            wf.write(this_fixture + scenario.function_name + ')\n{\n')
+            wf.write(this_fixture + scenario.function_name + ')\n{\n::testing::FLAGS_gtest_death_test_style = "threadsafe";\n')
 
             for i in scenario.death_index:
                 wf.write(assertion + scenario.functions[int(i)] + expectation)
