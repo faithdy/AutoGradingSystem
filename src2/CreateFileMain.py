@@ -20,7 +20,7 @@ import CreateUnitTest as CUT
 import chardet
 import time
 
-project_name = sys.argv[1]
+project_name = "project_1"
 
 pwd = getcwd()
 
@@ -96,7 +96,6 @@ def InsertSignal(filepath, student_path, isFirst):
             fl   = fh.read()
             fh.close()
             k = chardet.detect(fl)['encoding']
-            print(k)
             if  k != 'ascii' :
                 rename(f, f+'.cc')
                 subprocess.call('iconv -f ' + k + ' -t UTF8 '+f +'.cc > ' +f ,shell=True)
@@ -114,13 +113,13 @@ def InsertSignal(filepath, student_path, isFirst):
                 code = re.compile("//.*").sub("", line)
                 mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",code,re.S)
                 if mc :
-                    pc = re.findall(r"\b(\w+)::(\w+)\([^{]+[;)]", code, re.S)
+                    pc = re.findall(r"\b(\w+)::(\w+)\([^{]+(\)\)|[;])", code, re.S)
                     if pc :
                         new_file.write(code + '\n')
                     else :
                         nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",code,re.S)
                         if  not nc:
-                            new_file.write(code+'\n')
+                            new_file.write(code)
                             count = 1
                         else :
                             num = code.find("{")
@@ -130,14 +129,20 @@ def InsertSignal(filepath, student_path, isFirst):
                 else:
                     if count == 0 :
                         new_file.write(code+'\n')
-                    else :
+                    else:
                         count = 0
-                        oc = re.findall(r'\{( \w+|\w+)',code,re.S)
-                        if not oc :
-                            new_file.write(code+"\n"+sig)
-                        else :
+                        oc = re.findall(r'\{( \w+|\w+)', code, re.S)
+                        if not oc:
+                            if (code.find("{") == -1):
+                                new_file.write("\n" + sig + "\n" + code + '\n')
+                            else:
+                                if bool(re.match(r"( \w+|\w+)", code)):
+                                    new_file.write("\n" + sig + "\n" + code + '\n')
+                                else:
+                                    new_file.write("\n" + code + "\n" + sig)
+                        else:
                             code = code.replace(oc[0], "")
-                            new_file.write(code+"\n" + sig + oc[0] + '\n')
+                            new_file.write(code + "\n" + sig + oc[0] + '\n')
 
             new_file.close()
 

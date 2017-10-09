@@ -15,7 +15,7 @@ def findClass(filepath):
             code = re.compile("//.*").sub("", line)
             mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",code,re.S)
             if mc :
-                pc = re.findall(r"\b(\w+)::(\w+)\([^{]+[;)]", code, re.S)
+                pc = re.findall(r"\b(\w+)::(\w+)\([^{]+(\)\)|[;])", code, re.S)
                 if pc:
                     new_file.write(code + '\n')
                 else :
@@ -33,11 +33,17 @@ def findClass(filepath):
                     count = 0
                     oc = re.findall(r'\{( \w+|\w+)',code,re.S)
                     if not oc :
-                        new_file.write(code+"\n"+sig)
+                        if (code.find("{") == -1) :
+                            new_file.write("\n"+sig+"\n"+code+ '\n')
+                        else:
+                            if bool(re.match(r"( \w+|\w+)",code)) :
+                                new_file.write("\n" + sig + "\n" + code + '\n')
+                            else :
+                                new_file.write("\n" + code + "\n" + sig)
                     else :
                         code = code.replace(oc[0], "")
                         new_file.write(code+"\n" + sig + oc[0] + '\n')
 
         new_file.close()
 
-findClass(["./Management.cpp"])
+findClass(["./BST.cpp"])
