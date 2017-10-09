@@ -5,11 +5,13 @@ from xml.etree.ElementTree import parse
 from multiprocessing import Process
 import glob
 import configparser
+import argparse
 import re
 import sys
 import subprocess
 import codecs
 import shutil
+
 import Scenario
 import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
@@ -18,8 +20,7 @@ import CreateUnitTest as CUT
 import chardet
 import time
 
-#project_name = sys.argv[1]
-project_name = 'project_1'
+project_name = sys.argv[1]
 
 pwd = getcwd()
 
@@ -56,11 +57,17 @@ def GetConfig(path):
     return config
 
 
-def GetStudentList(path):
-    files = glob.glob(join(path,'*'))
+def GetStudentList(path, IDs):
+    files = glob.glob(join(path, '*'))
     dirs = [f for f in files if isdir(f)]
 
+    if IDs != None:
+        for id in IDs:  # Extract selected student
+            dirs = [f for f in dirs if id in f]
+
     return dirs
+
+
 
 def PublicReplace(headers, student_path, isFirst):
     for header in headers:
@@ -195,8 +202,19 @@ def main_process(student_path, config):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--student',
+        type=str,
 
-    student_list = GetStudentList(student_dir)
+        default=None,
+        nargs='+',
+        help='Select specific students'
+    )
+    FLAGS, unparsed = parser.parse_known_args()
+    selected_student = FLAGS.student
+
+    student_list = GetStudentList(student_dir, selected_student)
 
     config = GetConfig(config_path)
 
