@@ -18,7 +18,7 @@ def MakeDeathTest(student_dir, path, config):
     student_dir = abspath(student_dir)
     fixture = 'TEST_F('
     assertion = '\tEXPECT_DEATH('
-    expectation = ', \"segmentation fault\");\n'
+    expectation = ', \"-\");\n'
 
     with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:
 
