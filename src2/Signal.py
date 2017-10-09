@@ -15,7 +15,7 @@ def findClass(filepath):
             code = re.compile("//.*").sub("", line)
             mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",code,re.S)
             if mc :
-                pc = re.findall(r"\b(\w+)::(\w+)\([^{]+;", code, re.S)
+                pc = re.findall(r"\b(\w+)::(\w+)\([^{]+[;)]", code, re.S)
                 if pc:
                     new_file.write(code + '\n')
                 else :
