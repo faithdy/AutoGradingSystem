@@ -9,7 +9,7 @@ def findClass(filepath):
 		fi = codecs.open(f, 'r', encoding='utf8')
 		read_file=fi.read()
 		fi.close()
-		new_file = codecs.open(f,'w',encoding='utf16')
+		new_file = codecs.open(f,'w',encoding='utf8')
 		for line in read_file.split("\n"):
 			re.sub(r'\s+', ' ',line)
 			mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",line,re.S)
@@ -34,3 +34,5 @@ def findClass(filepath):
 						new_file.write(line+"\n" + sig + oc[0] + '\n')
 
 		new_file.close()
+
+findClass(["./List_2D.cpp"])

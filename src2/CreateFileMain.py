@@ -1,6 +1,6 @@
 
 from os.path import join, basename, splitext, isdir, abspath, exists
-from os import getcwd, chdir, mkdir
+from os import getcwd, chdir, mkdir, chmod, rename, remove
 from xml.etree.ElementTree import parse
 from multiprocessing import Process
 import glob
@@ -15,6 +15,8 @@ import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
 import CreateUnitMakeFile as CUMF
 import CreateUnitTest as CUT
+import chardet
+import time
 
 #project_name = sys.argv[1]
 project_name = 'project_1'
@@ -83,6 +85,15 @@ def InsertSignal(filepath, student_path, isFirst):
     for f in filepath :
         #shutil.copy(f, f.replace(".cc",".cc.bak"))
         if isFirst == True:
+            fh = open(f, mode="rb")
+            fl   = fh.read()
+            fh.close()
+            k = chardet.detect(fl)['encoding']
+            if  k != 'ascii' :
+                rename(f, f+'.cc')
+                subprocess.call('iconv -f ' + k + ' -t UTF8 '+f +'.cc > ' +f ,shell=True)
+                time.sleep(5)
+                remove(f+'.cc')
             shutil.copy(f, join(student_path,'bak'))
             fi = codecs.open(f, 'r', encoding='utf8')
             read_file=fi.read()
@@ -95,7 +106,7 @@ def InsertSignal(filepath, student_path, isFirst):
                 if mc :
                     nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",line,re.S)
                     if  not nc:
-                        new_file.write(line)
+                        new_file.write(line+'\n')
                         count = 1
                     else :
                         line = line.replace(nc[2],"")
@@ -142,6 +153,7 @@ def main_process(student_path, config):
     if not exists(bak):
         print("Make %s directory......" %bak)
         mkdir(bak)
+        chmod(bak, 0o777)
         isFirst = True
 
     filepaths, classes = CDT.GetClass(student_path)
