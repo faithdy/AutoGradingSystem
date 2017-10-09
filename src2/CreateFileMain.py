@@ -89,6 +89,7 @@ def InsertSignal(filepath, student_path, isFirst):
             fl   = fh.read()
             fh.close()
             k = chardet.detect(fl)['encoding']
+            print(k)
             if  k != 'ascii' :
                 rename(f, f+'.cc')
                 subprocess.call('iconv -f ' + k + ' -t UTF8 '+f +'.cc > ' +f ,shell=True)
@@ -100,28 +101,36 @@ def InsertSignal(filepath, student_path, isFirst):
             fi.close()
             new_file = codecs.open(f,'w',encoding='utf8')
             new_file.write(header)
+            read_file = re.compile("(?s)/\*.*?\*/").sub("", read_file)
             for line in read_file.split("\n"):
                 re.sub(r'\s+', ' ',line)
-                mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",line,re.S)
+                code = re.compile("//.*").sub("", line)
+                mc = re.findall(r"\b(\w+)::(\w+)\([^{]+",code,re.S)
                 if mc :
-                    nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",line,re.S)
-                    if  not nc:
-                        new_file.write(line+'\n')
-                        count = 1
+                    pc = re.findall(r"\b(\w+)::(\w+)\([^{]+;", code, re.S)
+                    if pc :
+                        new_file.write(code + '\n')
                     else :
-                        line = line.replace(nc[2],"")
-                        new_file.write(line+'\n'+sig+nc[2]+'\n')
+                        nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",code,re.S)
+                        if  not nc:
+                            new_file.write(code+'\n')
+                            count = 1
+                        else :
+                            num = code.find("{")
+                            new_file.write(code[:num + 1] + '\n' + sig + code[num + 1:] + '\n')
+                            #code = code.replace(nc[2],"")
+                            #new_file.write(code+'\n'+sig+nc[2]+'\n')
                 else:
                     if count == 0 :
-                        new_file.write(line+'\n')
+                        new_file.write(code+'\n')
                     else :
                         count = 0
-                        oc = re.findall(r'\{( \w+|\w+)',line,re.S)
+                        oc = re.findall(r'\{( \w+|\w+)',code,re.S)
                         if not oc :
-                            new_file.write(line+"\n"+sig)
+                            new_file.write(code+"\n"+sig)
                         else :
-                            line = line.replace(oc[0], "")
-                            new_file.write(line+"\n" + sig + oc[0] + '\n')
+                            code = code.replace(oc[0], "")
+                            new_file.write(code+"\n" + sig + oc[0] + '\n')
 
             new_file.close()
 
