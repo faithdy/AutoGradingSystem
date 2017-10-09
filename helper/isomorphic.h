@@ -2,12 +2,12 @@
 #include <typeinfo>
 #include <string>
 
-#include "../../assignment/project_1/2000000000/Region.h"
-#include "../../assignment/project_1/2000000000/Employment.h"
-#include "../../assignment/project_1/2000000000/BST.h"
-#include "../../assignment/project_1/2000000000/Management.h"
-#include "../../assignment/project_1/2000000000/List_Circular.h"
-#include "../../assignment/project_1/2000000000/List_2D.h"
+#include "../info/project_1/assistant/Region.h"
+#include "../info/project_1/assistant/Employment.h"
+#include "../info/project_1/assistant/BST.h"
+#include "../info/project_1/assistant/Management.h"
+#include "../info/project_1/assistant/List_Circular.h"
+#include "../info/project_1/assistant/List_2D.h"
 
 
 
