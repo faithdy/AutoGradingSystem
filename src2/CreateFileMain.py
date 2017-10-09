@@ -20,8 +20,7 @@ import CreateUnitTest as CUT
 import chardet
 import time
 
-#project_name = sys.argv[1]
-project_name = 'project_1'
+project_name = sys.argv[1]
 
 pwd = getcwd()
 
