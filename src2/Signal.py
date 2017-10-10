@@ -19,7 +19,7 @@ def findClass(filepath):
                 if pc:
                     new_file.write(code + '\n')
                 else :
-                    nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+)",code,re.S)
+                    nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+|	\w+)",code,re.S)
                     if  not nc:
                         new_file.write(code)
                         count = 1
@@ -31,19 +31,20 @@ def findClass(filepath):
                     new_file.write(code+'\n')
                 else :
                     count = 0
-                    oc = re.findall(r'\{( \w+|\w+)',code,re.S)
+                    oc = re.findall(r'\{( \w+|\w+|	\w+)',code,re.S)
                     if not oc :
                         if (code.find("{") == -1) :
                             new_file.write("\n"+sig+"\n"+code+ '\n')
                         else:
-                            if bool(re.match(r"( \w+|\w+)",code)) :
+                            if bool(re.match(r"( \w+|\w+|	\w+)",code)) :
                                 new_file.write("\n" + sig + "\n" + code + '\n')
                             else :
                                 new_file.write("\n" + code + "\n" + sig)
                     else :
-                        code = code.replace(oc[0], "")
-                        new_file.write(code+"\n" + sig + oc[0] + '\n')
+                        num = code.find("{")
+                        new_file.write(code[:num + 1] + '\n' + sig + code[num + 1:] + '\n')
+
 
         new_file.close()
 
-findClass(["./BST.cpp"])
+findClass(["./List_Circular.cpp"])
