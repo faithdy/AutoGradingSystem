@@ -29,7 +29,7 @@ def MakeUnitTest(student_dir, path, config, faillist):
 
             else:
                 this_fixture = fixture + scenario.test_fixture + ', '
-                wf.write(this_fixture + "unit_"+scenario.function_name + ')\n{\nfprintf(stderr,"FILE LOCATION: %s\n", __FILE__);\n')
+                wf.write(this_fixture + "unit_"+scenario.function_name + ')\n{\n\tfprintf(stderr,"FILE LOCATION: %s", __FILE__);\n')
 
                 for i in range(0,len(scenario.functions)):
                     if str(i) in scenario.death_index:

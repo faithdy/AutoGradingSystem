@@ -17,7 +17,7 @@ def GetClass(path):
 def MakeDeathTest(student_dir, path, config):
     student_dir = abspath(student_dir)
     fixture = 'TEST_F('
-    assertion = '\tASSERT_DEATH('
+    assertion = '\tEXPECT_DEATH('
     expectation = ', \"-\");\n'
 
     with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:
@@ -36,10 +36,10 @@ def MakeDeathTest(student_dir, path, config):
 
         for scenario in config['scenarios']:
             this_fixture = fixture + scenario.test_fixture + ', '
-            wf.write(this_fixture + scenario.function_name + ')\n{\n::testing::FLAGS_gtest_death_test_style = "threadsafe";\nfprintf(stderr, "FILE LOCATION: %s\n", __FILE__);\n')
+            wf.write(this_fixture + scenario.function_name + ')\n{\n\t::testing::FLAGS_gtest_death_test_style = "threadsafe";\n\tfprintf(stderr, "FILE LOCATION: %s", __FILE__);\n')
 
             for i in scenario.death_index:
                 wf.write(assertion + scenario.functions[int(i)] + expectation)
-				wf.write(scenario.function[int(i)] + ';\n')
+                wf.write('\t' + scenario.functions[int(i)] + ';\n')
 
             wf.write('}\n\n')
