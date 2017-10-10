@@ -1,5 +1,5 @@
 
-from os.path import join, basename, splitext, isdir, abspath, exists
+from os.path import join, basename, splitext, isdir, abspath, exists, isfile
 from os import getcwd, chdir, mkdir, chmod, rename, remove
 from xml.etree.ElementTree import parse
 from multiprocessing import Process
@@ -17,6 +17,7 @@ import CreateDeathTest as CDT
 import CreateDeathMakeFile as CDMF
 import CreateUnitMakeFile as CUMF
 import CreateUnitTest as CUT
+import CreateMakeFile as MT
 import chardet
 import time
 
@@ -183,27 +184,36 @@ def main_process(student_path, config):
         return
 
 
+
+
     cppfilepaths = [f.replace('.h','.cpp') for f in filepaths]
+
+    MT.CreateMakeFile(student_path, filepaths, classes)
+
     PublicReplace(filepaths, student_path, isFirst)
     InsertSignal(cppfilepaths, student_path, isFirst)
     RemoveCR(cppfilepaths)
 
-    CDT.MakeDeathTest(student_path, filepaths, config)
-
-    CDMF.CreateMakeFile(student_path, filepaths, classes)
-
     chdir(student_path)
     subprocess.call('make', shell=True)
-    subprocess.call('./DeathTest --gtest_output=\"xml:./DeathReport.xml\"', shell=True)
-    try:
-        fail_scenario = GetDeathFailList(student_path, 'DeathReport.xml')
-        CUT.MakeUnitTest(student_path, filepaths, config, fail_scenario)
-    except:
-        print("No DeathReport\n")
+    chdir('../../../AutoGradingSystem/src2')
 
-    CUMF.CreateMakeFile(student_path, filepaths, classes)
-    subprocess.call('make', shell=True)
-    subprocess.call('./UnitTest --gtest_output=\"xml:./UnitReport.xml\"', shell=True)
+    if isfile(student_path+'/RUN') :
+        CDT.MakeDeathTest(student_path, filepaths, config)
+        CDMF.CreateMakeFile(student_path, filepaths, classes)
+        chdir(student_path)
+        subprocess.call('make', shell=True)
+        subprocess.call('./DeathTest --gtest_output=\"xml:./DeathReport.xml\"', shell=True)
+
+        try:
+            fail_scenario = GetDeathFailList(student_path, 'DeathReport.xml')
+            CUT.MakeUnitTest(student_path, filepaths, config, fail_scenario)
+        except:
+            print("No DeathReport\n")
+
+        CUMF.CreateMakeFile(student_path, filepaths, classes)
+        subprocess.call('make', shell=True)
+        subprocess.call('./UnitTest --gtest_output=\"xml:./UnitReport.xml\"', shell=True)
 
 
 if __name__ == "__main__":
