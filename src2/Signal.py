@@ -19,21 +19,32 @@ def findClass(filepath):
                 if pc:
                     new_file.write(code + '\n')
                 else :
-                    nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+|	\w+)",code,re.S)
-                    if  not nc:
-                        new_file.write(code)
-                        count = 1
+                    qc = re.findall(r"\b(\w+)::(\w+)\([^{]+(\)|\{)", code, re.S)
+                    if not qc:
+                        new_file.write(code + '\n')
+                        count = 2
                     else :
-                        num = code.find("{")
-                        new_file.write(code[:num+1] + '\n' + sig + code[num + 1:] + '\n')
+                        nc = re.findall(r"\b(\w+)::(\w+)\([^{]+\{( \w+|\w+|	\w+)",code,re.S)
+                        if  not nc:
+                            k = len(code)
+                            j = code.find("}")+1
+                            if k>=j and j != 0:
+                                num = code.find("{")
+                                new_file.write(code[:num + 1] + '\n' + sig + code[num + 1:] + '\n')
+                            else :
+                                new_file.write(code)
+                                count = 1
+                        else :
+                            num = code.find("{")
+                            new_file.write(code[:num+1] + '\n' + sig + code[num + 1:] + '\n')
             else:
                 if count == 0 :
                     new_file.write(code+'\n')
-                else :
+                elif count == 1 :
                     count = 0
                     oc = re.findall(r'\{( \w+|\w+|	\w+)',code,re.S)
                     if not oc :
-                        if (code.find("{") == -1) :
+                        if code.find("{") == -1 :
                             new_file.write("\n"+sig+"\n"+code+ '\n')
                         else:
                             if bool(re.match(r"( \w+|\w+|	\w+)",code)) :
@@ -43,6 +54,21 @@ def findClass(filepath):
                     else :
                         num = code.find("{")
                         new_file.write(code[:num + 1] + '\n' + sig + code[num + 1:] + '\n')
+                else :
+                    count = 1
+                    oc = re.findall(r'\{( \w+|\w+|	\w+)', code, re.S)
+                    if not oc:
+                        if (len(code) >= code.find("{") + 1) and (code.find("{") != -1)  :
+                            count = 0
+                            num = code.find("{")
+                            new_file.write(code[:num + 1] + '\n' + sig + '\n')
+                        else :
+                            new_file.write(code + '\n')
+                    else:
+                        count = 0
+                        num = code.find("{")
+                        new_file.write(code[:num + 1] + '\n' + sig + code[num + 1:] + '\n')
+
 
 
         new_file.close()
