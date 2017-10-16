@@ -26,8 +26,8 @@ def MakeDeathTest(student_dir, path, config):
             wf.write('#include \"' + abspath(p) + '\"\n')
 
 
-        wf.write("#include \"../../../AutoGradingSystem/src/signal.h\"\n")
-        wf.write("#include \"../../../AutoGradingSystem/helper/isomorphic.h\"\n")
+        wf.write("#include \"../../../../AutoGradingSystem/src/include/signal.h\"\n")
+        wf.write("#include \"../../../../AutoGradingSystem/src/include//isomorphic.h\"\n")
         wf.write("#include \"gtest/gtest.h\"\n\n")
 
         #for l in config['setup']:

@@ -19,7 +19,7 @@ def MakeUnitTest(student_dir, path, config, faillist):
 
         #for l in config['setup']:
         #    wf.write(l + '\n')
-        wf.write(config['setup']+'\n')
+        wf.write(config['unit_setup']+'\n')
         for scenario in config['scenarios']:
             if faillist == None:
                 pass

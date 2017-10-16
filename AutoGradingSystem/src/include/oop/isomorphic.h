@@ -2,12 +2,12 @@
 #include <typeinfo>
 #include <string>
 
-#include "../info/project_1/assistant/Region.h"
-#include "../info/project_1/assistant/Employment.h"
-#include "../info/project_1/assistant/BST.h"
-#include "../info/project_1/assistant/Management.h"
-#include "../info/project_1/assistant/List_Circular.h"
-#include "../info/project_1/assistant/List_2D.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/Region.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/Employment.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/BST.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/Management.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/List_Circular.h"
+#include "../../../../../AutoGradingSystem/public/project_1/info/assistant/List_2D.h"
 
 
 

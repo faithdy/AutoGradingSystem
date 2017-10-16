@@ -1,4 +1,3 @@
-
 class Scenario:
     function_name = ''
     test_fixture = ''

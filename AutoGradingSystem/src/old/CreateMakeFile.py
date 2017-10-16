@@ -43,3 +43,6 @@ def CreateMakeFile(student_dir, path, classes):
     wf.write(clean)
     wf.close()
 
+if __name__ == "__main__":
+    CreateMakeFile();
+
