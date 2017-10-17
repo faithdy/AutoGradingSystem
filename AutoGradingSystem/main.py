@@ -26,7 +26,8 @@ JsonUnitTest = True
 student_dir = join(r'../public', project_name + '/data')
 student_result_dir = join(r'../public', project_name + '/result')
 info_dir = join(r'../public', project_name + '/info')
-config_path = join(info_dir, project_name + '.conf')
+config_path = join(info_dir, 'unit_' + project_name + '.conf')
+death_config_path = join(info_dir, 'death_' + project_name + '.conf')
 
 def GetClass(path):
     #allFiles = glob.glob(join(path, "**/*.h"), recursive=True)
@@ -87,7 +88,7 @@ def GetStudentList(path, IDs):
 
 
 
-def main_process(student_path, config):
+def main_process(student_path, config, death_config):
     isFirst = False
 
     bak = join(student_path,'bak')
@@ -118,7 +119,7 @@ def main_process(student_path, config):
             return False;
 
     if JsonDeathTest == True:
-        isNextStep, fail_scenario = dt.DeathTest(student_path, filepaths, config)
+        isNextStep, fail_scenario = dt.DeathTest(student_path, filepaths, death_config)
         if isNextStep == False:
             return False
 
@@ -142,11 +143,13 @@ if __name__ == "__main__":
     student_list = GetStudentList(student_dir, selected_student)
 
     config = GetConfig(config_path)
+    death_config = GetConfig(death_config_path)
+
 
     procs = []
 
     for i in range(len(student_list)):
-        procs.append(Process(target=main_process, args=(student_list[i], config)));
+        procs.append(Process(target=main_process, args=(student_list[i], config, death_config)));
 
     for p in procs:
         print('excute process')
