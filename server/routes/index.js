@@ -5,18 +5,57 @@ var parser = new xml2js.Parser();
 var fs = require('fs');
 var _publicPath = '../public';
 var Article = require('./model/article');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
+
+// require('./config/passport')(passport);
 /* GET home page. */
-
-router.get('/', function (req, res, next) {
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
+router.get('/', isLoggedIn,function (req, res, next) {
   Article.find({}, function (err, docs) {
-    res.render('articleList', {list: docs});
+    res.render('articleList', {list: docs, req : req});
   });
 })
 
 router.post('/', function (req, res, next) {
   res.render('articleRegist', {});
 })
+
+router.get('/login',function(req, res, next) {
+  res.render('login', {});
+});
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/'); //Can fire before session is destroyed?
+});
+router.post('/signup', passport.authenticate('signup', {
+
+    successRedirect : '/',
+    failureRedirect : '/login', //가입 실패시 redirect할 url주소
+    failureFlash : true
+}))
+router.post('/login', passport.authenticate('login', {
+
+    successRedirect : '/',
+    failureRedirect : '/login', //로그인 실패시 redirect할 url주소
+    failureFlash : true
+
+}))
+
+
+
+
+router.get('/profile',isLoggedIn , function(req, res, next) {
+    res.render('index', { title: 'You are logged in.' });
+});
 
 router.get('/:idx', function(req, res, next) {
   var idx = req.params.idx;

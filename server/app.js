@@ -4,13 +4,29 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 var api = require('./routes/api');
 var report = require('./routes/report');
-
+var session = require('express-session');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var flash = require('connect-flash');
 var app = express();
+
+
+app.use(function(req,res, next){
+if(req.user){
+res.locals.userInformation = req.user;
+}else{
+res.locals.userInformation = false;
+}
+next();
+});
+// app.use(function(req,res,next){
+//   res.locals.login = req.isAuthenticated();
+//   res.locals.user = req.user; next(); });
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +39,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}));
 
+require('./config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session()); //로그인 세션 유지
+
+mongoose.connect('mongodb://localhost/AGS' , { useMongoClient: true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+//데이터베이스 접속 확인
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    console.log("mongo DB connected...")
+});
+
+
+//플래시메세지를 사용한다면
+
+app.use(flash());
 
 app.use('/', index);
 app.use('/api', api);
