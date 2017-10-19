@@ -6,22 +6,27 @@ from multiprocessing import Process
 import glob
 import configparser
 import argparse
+import json
 
 import src.MakeFile as mf
 import src.RunTest as rt
 import src.DeathTest as dt
 import src.UnitTest as ut
 import src.Compatibility as compat
-import src.Scenario
 from src.Scenario import Scenario
 
-#project_name = "project_1"
 project_name = sys.argv[1]
 
-JsonCompatibility = True
-JsonRunTest = True
-JsonDeathTest = True
-JsonUnitTest = True
+with open(join('../public/' + project_name + '/info/', project_name + '.json')) as data_file:
+    process_steps = json.load(data_file)
+
+
+JsonCompatibility = process_steps['comapatibility']
+JsonRunTest = process_steps['compile']
+JsonDeathTest = death = process_steps['death']
+JsonUnitTest = process_steps['unit']
+JsonOopTest = process_steps['oop']
+
 
 student_dir = join(r'../public', project_name + '/data')
 student_result_dir = join(r'../public', project_name + '/result')
