@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>LIST PAGE</title>
+    <link rel="shortcut icon" href="#">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
@@ -13,7 +14,7 @@
       <% for(var i=0; i<list.length; i++) {%>
         <tr>
           <li>
-                <a href=<%= list[i] %>><%= list[i] %></a>
+            <a href="report/a?title=<%=title%>&idx=<%=list[i]%>"><%= list[i] %></a>
           </li>
         </tr>
         <% } %>

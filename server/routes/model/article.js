@@ -15,7 +15,7 @@ var article = mongoose.Schema({
     "start_date" : Date,
     "end_date" : Date,
     "content" : String,
-    "file" : String,
+    "file" : Array,
     "author" : String
 }, {versionKey: false}/*__v버전키 필드 제거*/);
 module.exports = mongoose.model('article', article);

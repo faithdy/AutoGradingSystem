@@ -2,53 +2,71 @@
 <html>
   <head>
     <title>Auto Grading System</title>
+    <link rel="shortcut icon" href="#">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>과제 제목</h1>
+    <h1><%=list['title']%></h1>
     <hr>
     <table>
       <tr>
         <td>
-          제출 기한 :
+          마감 기한 :
         </td>
         <td>
-          201701.01
+          <% if(list['end_date']) {%>
+          <%=list['end_date'].toLocaleString()%>
+          <%}%>
         </td>
       </tr>
-
-      <td>
-        내용 :
-      </td>
-
-      <td>
-        본과제를 다익스트라를이용해서 구현하세요
-      </td>
+      <tr>
+        <td>
+          내용 :
+        </td>
+        <td>
+          <%=list['content']%>
+        </td>
+      </tr>
     </tr>
     <tr>
       <td>
         첨부 자료 :
       </td>
-
+      <td>
+        <% for(var i=0; i<list['file'].length; i++) {%>
+        <a href="#"><%= list['file'][i]['originalname'] %></a><br/>  <%}%>
+      </td>
     </tr>
     <tr>
       <td>
         제출란 :
       </td>
+      <td>
 
+      </td>
     </tr>
   </table>
     <table>
-
     <tr>
       <td>
-        <form action="/assignemtn.js" method="get">
+        <form action="/" method="post">
+          <input type="hidden" name="title", value="<%=list['title']%>">
+          <input type="hidden" name="end_date", value="<%=list['end_date']%>">
+          <input type="hidden" name="module_1", value="<%=list['module_1']%>">
+          <input type="hidden" name="module_2", value="<%=list['module_2']%>">
+          <input type="hidden" name="module_3", value="<%=list['module_3']%>">
+          <input type="hidden" name="module_4", value="<%=list['module_4']%>">
+          <input type="hidden" name="module_5", value="<%=list['module_5']%>">
+          <input type="hidden" name="content", value="<%=list['content']%>">
+          <input type="hidden" name="file", value="<%=list['file']%>">
+          <input type="hidden" name="author", value="<%=list['author']%>">
           <input type="button" name="" value="과제 수정">
         </form>
       </td>
       <td>
-        <form action="/assignemtn.js" method="get">
-          <input type="button" name="" value="과제 삭제">
+        <form action="/api/articleDelete" method="post">
+          <input type="hidden" name="title", value="<%=list['title']%>">
+          <input type="submit" name="" value="과제 삭제">
         </form>
       </td>
       <td>
@@ -57,7 +75,9 @@
         </form>
       </td>
       <td>
-        <form action="/report" method="get">
+        <form action="/report" method="post">
+          <input type="hidden" name="title", value="<%=list['title']%>">
+          <input type="hidden" name="idx", value="">
           <input type="submit" value="결과 확인">
         </form>
       </td>
