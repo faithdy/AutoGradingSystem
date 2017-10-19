@@ -7,6 +7,15 @@
   </head>
   <body>
     <h1>과제 목록</h1>
+    <h1>Assignment List</h1>
+
+    <% if(userInformation){ %>
+ <input type="button" value="login" onClick="self.location='/login';">
+     <% } else{ %>
+     <input type="button" value="logout" onClick="self.location='/logout';">
+    <% } %>
+
+      <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
     <hr>
     <h3>Total : <%=list.length %></h3>
 

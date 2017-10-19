@@ -1,6 +1,5 @@
 import shutil, codecs
 import subprocess
-from os import rename, remove, path
 import chardet
 import re
 import time
