@@ -21,7 +21,7 @@ def ExecTest(student_path):
     xml_path = abspath(xml_path)
 
 
-    subprocess.call('make unit>>' + student_result_dir + '/Make_UnitTest.log;', shell=True)
+    subprocess.call('make unit 2>' + student_result_dir + '/Make_UnitTest.log;', shell=True)
     subprocess.call('./UnitTest --gtest_output=\"xml:' + xml_path+ '"', shell=True)
 
 
