@@ -1,5 +1,6 @@
 import shutil, codecs
 import subprocess
+from os import rename, remove, path
 import chardet
 import re
 import time
@@ -63,7 +64,8 @@ def BreakEncapsulation(filepath, student_path):
 def InsertSignal(filepath):
 
     count = 0
-    sig = "struct sigaction sa;\nset_sigaction(sa);\nalarm(3);\n"
+    #sig = "struct sigaction sa;\nset_sigaction(sa);\nalarm(3);\n"
+    sig = "struct sigaction sa;\nset_sigaction(sa);\n"
     header = '#include '+'"../../../../AutoGradingSystem/src/include/signal.h"'
 
     for f in filepath :

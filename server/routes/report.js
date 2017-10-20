@@ -53,14 +53,14 @@ router.get('/a', function (req,res,next) {
         res.render('report', { info : info, testsuites : testsuites, title:title });
       });
     }
-  });  
+  });
 })
 
 router.post('/', function (req, res, next) {
   var title = req.body.title;
   var idx = req.body.idx;
-  console.log("report..");
-  if(idx) {
+
+  if(idx && idx !='1234') {
     fs.readFile('../public' + '/' + title + '/result/' + idx + '/unitReport.xml' , 'utf-8', function (err, data) {
       var xml = data;
       if(err) {

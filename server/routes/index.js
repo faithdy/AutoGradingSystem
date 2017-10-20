@@ -7,7 +7,8 @@ var _publicPath = '../public';
 var Article = require('./model/article');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
+var User = require('../models/user');
+var mongoose = require('mongoose');
 
 // require('./config/passport')(passport);
 /* GET home page. */
@@ -73,9 +74,24 @@ router.get('/profile',isLoggedIn , function(req, res, next) {
 
 router.get('/:idx', function(req, res, next) {
   var idx = req.params.idx;
-  Article.find({'title' : idx}, function (err, docs) {
-    if(err) console.log("error");
-    res.render('article', {list: docs[0]});
+  // var object_id = mongoose.Types.ObjectId(req.session.passport.user);
+  // console.log(object_id);
+  var _user = req.session.passport.user;
+  var user_idx;
+  console.log(_user);
+  User.find({}, function (err, docs) {
+    if(err) throw err;
+    for(var i=0; i<docs.length; i++) {
+       if(docs[i]['_id'] == _user) {
+        user_idx = docs[i]['id'];
+        break;
+      }
+    }
+
+    Article.find({'title' : idx}, function (err, docs) {
+      if(err) console.log("error");
+      res.render('article', {list: docs[0], user_idx : user_idx});
+    });
   });
 });
 

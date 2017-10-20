@@ -15,12 +15,13 @@ def UnitTest(student_dir, path, config, faillist):
 def ExecTest(student_path):
     origin_path = getcwd();
 
+    chdir(student_path)
     student_result_dir = path.join(result_dir, basename(student_path))
     xml_path = path.join(student_result_dir, "UnitReport.xml")
+    xml_path = abspath(xml_path)
 
-    chdir(student_path)
 
-    subprocess.call('make unit>>' + student_result_dir + '/Make_UnitTest.log;', shell=True)
+    subprocess.call('make unit 2>' + student_result_dir + '/Make_UnitTest.log;', shell=True)
     subprocess.call('./UnitTest --gtest_output=\"xml:' + xml_path+ '"', shell=True)
 
 

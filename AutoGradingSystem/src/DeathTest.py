@@ -3,7 +3,7 @@
 import subprocess
 import re
 from os import chdir, getcwd
-from os.path import join, exists
+from os.path import join, exists, abspath
 from xml.etree.ElementTree import parse
 
 result_dir = '../../result'
@@ -19,12 +19,13 @@ def ExecTest(student_path):
     origin_path = getcwd();
 
 
+    chdir(student_path)
     student_result_dir = join(result_dir, basename(student_path))
     xml_path = join(student_result_dir, "DeathReport.xml")
+    xml_path = abspath(xml_path)
 
-    chdir(student_path)
 
-    subprocess.call('make death>>' + student_result_dir + '/Make_DeathTest.log;', shell=True)
+    subprocess.call('make death 2>' + student_result_dir + '/Make_DeathTest.log;', shell=True)
     subprocess.call('./DeathTest --gtest_output=\"xml:' + xml_path +'"', shell=True)
     print(xml_path)
 
@@ -41,7 +42,7 @@ def MakeDeathTest(student_dir, path, config):
 
     student_dir = abspath(student_dir)
     fixture = 'TEST_F('
-    assertion = '\tEXPECT_DEATH('
+    assertion = '\tEXPECT_DEATH(alarm(1);'
     expectation = ', \"-\");\n'
 
     with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:
