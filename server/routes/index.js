@@ -3,122 +3,98 @@ var router = express.Router();
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
 var fs = require('fs');
+var _publicPath = '../public';
+var Article = require('./model/article');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('../models/user');
+var mongoose = require('mongoose');
 
+// require('./config/passport')(passport);
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  fs.readdir('.', 'utf-8', function (err, data) {
-    var list = [];
-    for(i=0; i<data.length; i++) {
-      if(data[i].indexOf("201")!=-1) {
-          list.push(data[i]);
-      }
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()){
+        return next();
+    } else {
+        res.redirect('/login');
     }
-    console.log(list);
-    res.render('list', {list: list});
-  })
-/*
-디렉토리 탐색 후, 디렉토리 리스트 테이블로 보여주고 a링크로 파라미터 보내기
-*/
+}
+router.get('/', isLoggedIn,function (req, res, next) {
+  Article.find({}, function (err, docs) {
+    res.render('articleList', {list: docs, req : req});
+  });
 })
+
+//write atricle
+router.post('/', function (req, res, next) {
+  var list = new Object();
+  list.title = req.body.title;
+  list.end_date = req.body.end_date;
+  list.module_1 = req.body.module_1? 1 : 0;
+  list.module_2 = req.body.module_2? 1 : 0;
+  list.module_3 = req.body.module_3? 1 : 0;
+  list.module_4 = req.body.module_4? 1 : 0;
+  list.module_5 = req.body.module_5? 1 : 0;
+  list.content = req.body.content;
+  list.file = req.body.file;
+  list.author = req.body.author;
+
+
+  res.render('articleRegist', {list : list});
+})
+
+router.get('/login',function(req, res, next) {
+  res.render('login', {});
+});
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/'); //Can fire before session is destroyed?
+});
+router.post('/signup', passport.authenticate('signup', {
+
+    successRedirect : '/',
+    failureRedirect : '/login', //가입 실패시 redirect할 url주소
+    failureFlash : true
+}))
+router.post('/login', passport.authenticate('login', {
+
+    successRedirect : '/',
+    failureRedirect : '/login', //로그인 실패시 redirect할 url주소
+    failureFlash : true
+
+}))
+
+
+
+
+router.get('/profile',isLoggedIn , function(req, res, next) {
+    res.render('index', { title: 'You are logged in.' });
+});
 
 router.get('/:idx', function(req, res, next) {
   var idx = req.params.idx;
-  var publicPath = __dirname + '/../' + idx;
-  console.log(publicPath);
-  fs.readFile(publicPath + '/UnitReport.xml', 'utf-8', function (err, data) {
-    var xml = data;
-    if(err) {
-      res.render('error',{});
-    } else {
-      parser.parseString(xml, function (err, result) {
-        var info = new Object();
-        info.name = idx;
-        info.tests = result['testsuites']['$']['tests'];
-        info.failures = result['testsuites']['$']['failures'] ;
-        info.timestamp = result['testsuites']['$']['timestamp'];
-        info.time = result['testsuites']['$']['time'];
-
-        var testsuites = [];
-        for(i=0; i<result['testsuites']['testsuite'].length; i++) {
-          var testsuite = new Object();
-          var testsuite_info = new Object();
-          testsuite_info.name = result['testsuites']['testsuite'][i]['$']['name'];
-          testsuite_info.tests = result['testsuites']['testsuite'][i]['$']['tests'];
-          testsuite_info.failures = result['testsuites']['testsuite'][i]['$']['failures'];
-          testsuite_info.time = result['testsuites']['testsuite'][i]['$']['time'];
-
-          testsuite.info = testsuite_info;
-          // console.log(result['testsuites']['testsuite'][i]['testcase'][j]['$']);
-
-          var testcase = [];
-          for(j=0; j<result['testsuites']['testsuite'][i]['testcase'].length; j++) {
-            var testcaseObject = new Object();
-            testcaseObject.name = result['testsuites']['testsuite'][i]['testcase'][j]['$']['name'];
-            if(result['testsuites']['testsuite'][i]['testcase'][j]['failure']) {
-              testcaseObject.state = 'Failed';
-            } else {
-              testcaseObject.state = 'Pass';
-            }
-            testcaseObject.time = result['testsuites']['testsuite'][i]['testcase'][j]['$']['time'];
-            testcase.push(testcaseObject);
-          }
-          testsuite.testcase = testcase;
-          testsuites.push(testsuite);
-        }
-        res.render('report', { info : info, testsuites : testsuites });
-      });
+  // var object_id = mongoose.Types.ObjectId(req.session.passport.user);
+  // console.log(object_id);
+  var _user = req.session.passport.user;
+  var user_idx;
+  console.log(_user);
+  User.find({}, function (err, docs) {
+    if(err) throw err;
+    for(var i=0; i<docs.length; i++) {
+       if(docs[i]['_id'] == _user) {
+        user_idx = docs[i]['id'];
+        break;
+      }
     }
+
+    Article.find({'title' : idx}, function (err, docs) {
+      if(err) console.log("error");
+      res.render('article', {list: docs[0], user_idx : user_idx});
+    });
   });
 });
 
+
+
 module.exports = router;
-
-
-
-
-//
-// parser.parseString(xml, function (err, result) {
-//   // console.log(result);
-//
-//   // console.log('::total tests, failures, timestamp, time::');
-//   // console.log(result['testsuites']['$']);
-//   var info = new Object();
-//   info.name = __dirname;
-//   info.tests = result['testsuites']['$']['tests'];
-//   info.failures = result['testsuites']['$']['failures'] ;
-//   info.timestamp = result['testsuites']['$']['timestamp'];
-//   info.time = result['testsuites']['$']['time'];
-//
-//
-//   // console.log("::total test suites::");
-//   // console.log(result['testsuites']['testsuite']);
-//
-//   // console.log("::each test suite info, test case::");
-//   // console.log(result['testsuites']['testsuite'][0]['$']);
-//   // console.log(result['testsuites']['testsuite'][0]['testcase']);
-//   var testsuites = [];
-//   for(i=0; i<result['testsuites']['testsuite'].length; i++) {
-//       var testsuite = new Object();
-//       var testsuite_info = new Object();
-//       var testcase = [];
-//       testsuite_info.name = result['testsuites']['testsuite'][i]['$']['name'];
-//       testsuite_info.tests = result['testsuites']['testsuite'][i]['$']['tests'];
-//       testsuite_info.failures = result['testsuites']['testsuite'][i]['$']['failures'];
-//       testsuite_info.time = result['testsuites']['testsuite'][i]['$']['time'];
-//
-//       testsuite.info = testsuite_info;
-//
-//       // console.log(result['testsuites']['testsuite'][0]['testcase'][0]['$']);
-//       testsuites.push(testsuite);
-//   }
-//   // console.log(testsuites);
-//   // console.log("::each test case::");
-//   // console.log(result['testsuites']['testsuite'][0]['testcase'][0]['$']);
-//
-//
-//
-//   // var data = JSON.parse(result);
-//   // console.log(data);
-//   // console.log("TESTSUITES: " +JSON.stringrify(result));
-//
-// });

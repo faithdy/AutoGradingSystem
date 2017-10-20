@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Auto Grading System</title>
+    <link rel="shortcut icon" href="#">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Article Regist</h1>
+    <hr>
+    <table>
+        <tr>
+          <td>
+            <form class="" action="api/articleRegist" method="post" enctype="multipart/form-data" >
+            제목
+          </td>
+          <td>
+            <input type="text" name="title" value="<%=list['title']%>">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            제출 마감일
+          </td>
+          <td>
+            <input type="date" name="date" value="">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            모듈
+          </td>
+          <td>
+            <input type="checkbox" name="module_1" value="1" checked="checked">호환성 검사
+            <input type="checkbox" name="module_2" value="1" checked="checked">빌드 테스트
+            <input type="checkbox" name="module_3" value="1">객체 기반 테스트
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <input type="checkbox" name="module_4" value="1">데스 테스트
+            <input type="checkbox" name="module_5" value="1" checked="checked">유닛 테스트
+          </td>
+        </tr>
+        <tr>
+          <td>
+            내용
+          </td>
+          <td>
+            <textarea name="content" rows="8" cols="40" colspan="2"><%=list['content']%></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            첨부 파일
+          </td>
+          <td>
+            <input type="file" name="file" value="" multiple><% if(list['title']) { %>(등록됨)<%}%>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            작성자
+          </td>
+          <td>
+            <input type="text" name="author" value="<%=list['author']%>">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" name="등록" value="과제 등록">
+          </form>
+          </td>
+          <td>
+            <form action="/" method="get">
+              <input type="submit" value="홈으로">
+            </form>
+          </td>
+        </tr>
+    </table>
+  </body>
+</html>

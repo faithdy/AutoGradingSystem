@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Auto Grading System</title>
+    <link rel="shortcut icon" href="#">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>과제 목록</h1>
+    <h1>Assignment List</h1>
+
+    <% if(userInformation){ %>
+ <input type="button" value="login" onClick="self.location='/login';">
+     <% } else{ %>
+     <input type="button" value="logout" onClick="self.location='/logout';">
+    <% } %>
+
+      <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
+    <hr>
+    <h3>Total : <%=list.length %></h3>
+
+    <table>
+      <tr>
+        <th>과제</th>
+        <th>제목</th>
+        <th>제출 기간</th>
+      </tr>
+      <% for(var i=0; i<list.length; i++) {%>
+        <tr>
+          <td>
+            #<%=i%>
+          </td>
+          <td>
+            <a href=<%= list[i]['title'] %>><%= list[i]['title'] %></a>
+          </td>
+          <td>
+            <% if(list[i]['end_date']) {%>
+            <%= list[i]['start_date'].toLocaleString()%>
+            ~
+            <%= list[i]['end_date'].toLocaleString()%>
+            <%}%>
+          </td>
+        </tr>
+        <% } %>
+    </table>
+    <form action="./" method="post">
+      <input type="submit" value="과제 등록">
+    </form>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Login</title>
+     <link rel='stylesheet' href='/stylesheets/style.css' />
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="backbox">
+      <div class="loginMsg">
+        <div class="textcontent">
+          <p class="title">Don't have an account?</p>
+          <p>Sign up to save all your graph.</p>
+          <button id="switch1">Sign Up</button>
+        </div>
+      </div>
+      <div class="signupMsg visibility">
+        <div class="textcontent">
+          <p class="title">Have an account?</p>
+          <p>Log in to see all your collection.</p>
+          <button id="switch2">LOG IN</button>
+        </div>
+      </div>
+    </div>
+    <!-- backbox -->
+
+    <div class="frontbox">
+      <div class="login">
+        <h2>LOG IN</h2>
+        <div class="inputbox">
+          <form name = "frm" action="/login" method="post" onsubmit="return check_onclick()">
+          <input type="number" name="id" placeholder="  ID">
+          <input type="password" name="password" placeholder="  PASSWORD">
+          <input value="로그인" type="submit" />
+          </form>
+        </div>
+        <p>FORGET PASSWORD?</p>
+      </div>
+
+      <div class="signup hide">
+        <h2>SIGN UP</h2>
+        <div class="inputbox">
+          <form name = "frm1" action="/signup" method="post" onsubmit="return check_onclick1()">
+          <input type="number" name="id" placeholder="  ID">
+          <input type="password" name="password" placeholder="  PASSWORD">
+          <input value="회원가입" type="submit" />
+          </form>
+        </div>
+      </div>
+
+    </div>
+    <!-- frontbox -->
+  </div>
+</body>
+
+<script type="text/javascript">
+function check_onclick(){
+  Form = document.frm;
+  console.log(Form.id.value);
+  if(Form.id.value==''){alert("아이디를 입력해주세요"); return false;}
+  if(Form.password.value==''){alert("비밀번호를 입력해주세요"); return false;}
+  Form.submit();
+}
+function check_onclick1(){
+  Form = document.frm1;
+  console.log(Form.id.value);
+  if(Form.id.value==''){alert("아이디를 입력해주세요"); return false;}
+  if(Form.password.value==''){alert("비밀번호를 입력해주세요"); return false;}
+  Form.submit();
+}
+</script>
+<script>
+var $loginMsg = $('.loginMsg'),
+  $login = $('.login'),
+  $signupMsg = $('.signupMsg'),
+  $signup = $('.signup'),
+  $frontbox = $('.frontbox');
+$('#switch1').on('click', function() {
+  $loginMsg.toggleClass("visibility");
+  $frontbox.addClass("moving");
+  $signupMsg.toggleClass("visibility");
+
+  $signup.toggleClass('hide');
+  $login.toggleClass('hide');
+})
+
+$('#switch2').on('click', function() {
+  $loginMsg.toggleClass("visibility");
+  $frontbox.removeClass("moving");
+  $signupMsg.toggleClass("visibility");
+
+  $signup.toggleClass('hide');
+  $login.toggleClass('hide');
+})
+
+</script>
+</html>
