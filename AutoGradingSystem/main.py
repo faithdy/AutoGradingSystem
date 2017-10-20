@@ -3,10 +3,10 @@ from os.path import join, isdir, exists, splitext, basename
 import sys
 
 from multiprocessing import Process
+from collections import OrderedDict
 import glob
 import configparser
 import argparse
-
 import json
 
 import src.MakeFile as mf
@@ -98,13 +98,14 @@ def GetStudentList(path, IDs):
 
 def main_process(student_path, config):
     isFirst = False
+    compile_err_json = OrderedDict()
 
     bak = join(student_path,'bak')
+    result = join(student_path, '../../result/' + basename(student_path))
 
     if not exists(bak) :
         print("Make %s directory......" %bak)
         mkdir(bak)
-        result = join(student_path, '../../result/'+basename(student_path))
         if not exists(result) :
             mkdir(result)
         chmod(bak, 0o777)
@@ -124,15 +125,25 @@ def main_process(student_path, config):
     if JsonRunTest == True:
         isNextStep = rt.RunTest(student_path)
         if isNextStep == False:
+            compile_err_json["err"] = "compile"
+            with open(join(result, 'err_compile.json'), 'w', encoding='utf-8') as err_json:
+                json.dump(compile_err_json, err_json, ensure_ascii=False, indent='\t')
             return False;
 
     if JsonDeathTest == True:
         isNextStep, fail_scenario = dt.DeathTest(student_path, filepaths, config)
         if isNextStep == False:
+            compile_err_json["err"] = "death"
+            with open(join(result, 'err_death.json'), 'w', encoding='utf-8') as err_json:
+                json.dump(compile_err_json, err_json, ensure_ascii=False, indent='\t')
             return False
 
     if JsonUnitTest == True:
         isNextStep = ut.UnitTest(student_path, filepaths, config, fail_scenario)
+        if isNextStep == False:
+            compile_err_json["err"] = "unit"
+            with open(join(result, 'err_unit.json'), 'w', encoding='utf-8') as err_json:
+                json.dump(compile_err_json, err_json, ensure_ascii=False, indent='\t')
 
 
 if __name__ == "__main__":
