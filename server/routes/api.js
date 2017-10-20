@@ -107,6 +107,45 @@ router.post('/articleDelete', function (req, res, next) {
   res.redirect('/');
 });
 
+router.post('/assignmentRegist', function (req, res, next) {
+  console.log("과제 등록 API 호출");
+  console.log("바디 내용"+req.body.name);
+  console.log(req.form);
+  var title = req.body.title;
+  var idx = req.body.idx;
+  console.log(title+":"+idx);
+
+  mkdirp(_publicPath+'/'+title+'/data/'+idx, function (err) {
+    if(err) throw err;
+    var storage = multer.diskStorage({
+      // 서버에 저장할 폴더
+      destination: function (req, file, cb) {
+        cb(null, _publicPath+'/'+title+'/data/'+idx);
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.originalname);
+      }
+      //서버에 저장할 파일 명
+      // filename: function (req, file, cb) {
+      //   file.uploadedFile = {
+      //     name: req.params.filename,
+      //     ext: file.mimetype.split('/')[1]
+      //   };
+      // cb(null, file.uploadedFile.name + '.' + file.uploadedFile.ext);
+      // }
+    });
+    var upload = multer({ storage: storage }).array('stu_file');
+    upload(req, res, function (err) {
+      console.log(req.files);
+      // if(err) throw err;
+      // else
+      console.log("과제가 성공적으로 업로드 되었습니다.");
+    })
+  })
+  console.log("과제 등록 API 종료");
+  res.redirect('/');
+})
+
 
 
 module.exports = router;
