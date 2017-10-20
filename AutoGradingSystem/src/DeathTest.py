@@ -27,7 +27,6 @@ def ExecTest(student_path):
 
     subprocess.call('make death 2>' + student_result_dir + '/Make_DeathTest.log;', shell=True)
     subprocess.call('./DeathTest --gtest_output=\"xml:' + xml_path +'"', shell=True)
-    print(xml_path)
 
     if exists(xml_path):
         faillist = GetDeathFailList(xml_path)
