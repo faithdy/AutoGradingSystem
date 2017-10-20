@@ -20,8 +20,20 @@ function isLoggedIn(req, res, next) {
     }
 }
 router.get('/', isLoggedIn,function (req, res, next) {
+  var _user = req.session.passport.user;
+  var user_idx;
+  console.log(_user);
+  User.find({}, function (err, docs) {
+    if(err) throw err;
+    for(var i=0; i<docs.length; i++) {
+       if(docs[i]['_id'] == _user) {
+        user_idx = docs[i]['id'];
+        break;
+      }
+    }
+  });
   Article.find({}, function (err, docs) {
-    res.render('articleList', {list: docs, req : req});
+    res.render('articleList', {list: docs, req : req, user_idx : user_idx});
   });
 })
 

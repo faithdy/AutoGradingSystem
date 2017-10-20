@@ -6,12 +6,33 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+    <header>
+    <h1>AUTO GRADING SYSTEM</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Q&A</a></li>
+            <li>
+              <% if(userInformation){ %>
+                <li><a href="/login">Login</a></li>
+             <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
+              <% } else{ %>
+              <!-- <input type="button" value="logout" onClick="self.location='/logout';"> -->
+                <li><a href="/logout">Logout</a></li>
+              <% } %>
+
+            </li>
+
+        </ul>
+  </nav>
+  </header>
+      <article>
     <h1>Article Regist</h1>
     <hr>
     <table>
         <tr>
           <td>
-            <form class="" action="api/articleRegist" method="post" enctype="multipart/form-data" >
+            <form class="" action="api/articleRegist" method="post" enctype="" >
             제목
           </td>
           <td>
@@ -72,12 +93,28 @@
             <input type="submit" name="등록" value="과제 등록">
           </form>
           </td>
-          <td>
-            <form action="/" method="get">
-              <input type="submit" value="홈으로">
-            </form>
-          </td>
         </tr>
     </table>
+</article>
+
+    <footer>
+      <div id="center_footer">
+   <div id="left_footer"><b>Find Us On</b>
+   <ul>
+     <li> <a href=“#”><image src='../../images/youtube.png'/></a> </li>
+     <!-- <li> <a href=“#”>  <img src=“images/twitter.png”  />  </a> </li>
+     <li> <a href=“#”> <img src=“images/youtube.png”  /> </a> </li>
+     <li> <a href=“#”>     <img src=“images/rss.png”  />     </a> </li> -->
+     </ul>
+   </div>
+   <div id="right_footer">
+       <a href=“/”>HOME</a>
+       <a href=“#”>Q&A</a>
+       <a href=“#”>SERVICES</a>
+       <a href=“#”>PARTNERS</a>
+       <a href=“#”>CONTACT US</a>
+   </div>
+   <span>© Your Website Name 20117 </span>
+    </footer>
   </body>
 </html>

@@ -110,11 +110,13 @@ router.post('/', function (req, res, next) {
     fs.readdir('../public' + '/' + title + '/result', 'utf-8', function (err, data) {
       if(err) console.log("error");
       var list = [];
-      for(i=0; i<data.length; i++) {
-        list.push(data[i]);
+      if(!data) res.send("NOT GENERATE THE RESULT FILE YET")
+      else {
+        for(i=0; i<data.length; i++) {
+          list.push(data[i]);
+        }
+        res.render('list', {list:list, title:title});
       }
-      console.log("TITLE:"+ title);
-      res.render('list', {list:list, title:title});
     })
   }
 

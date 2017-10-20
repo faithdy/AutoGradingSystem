@@ -6,8 +6,28 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+      <header>
+      <h1>AUTO GRADING SYSTEM</h1>
+      <nav>
+          <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="#">Q&A</a></li>
+              <li>
+                <% if(userInformation){ %>
+                  <li><a href="/login">Login</a></li>
+               <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
+                <% } else{ %>
+                <!-- <input type="button" value="logout" onClick="self.location='/logout';"> -->
+                  <li><a href="/logout">Logout</a></li>
+                <% } %>
+              </li>
+          </ul>
+    </nav>
+
+    </header>
     <h1><%=list['title']%></h1>
     <hr>
+    <article>
     <table>
       <tr>
         <td>
@@ -33,21 +53,35 @@
         첨부 자료 :
       </td>
       <td>
-        <% for(var i=0; i<list['file'].length; i++) {%>
-        <a href="#"><%= list['file'][i]['originalname'] %></a><br/>  <%}%>
+        <% var reg=/pdf/i; var reg2=/hwp/i;
+        for(var i=0; i<list['file'].length; i++) {
+          list['file'][i]['originalname'].search(reg);
+          if(list['file'][i]['originalname'].search(reg)!=-1 ||
+            list['file'][i]['originalname'].search(reg2)!=-1) {%>
+            <a href="#"><%= list['file'][i]['originalname'] %></a><br/>
+          <%}
+        }%>
       </td>
     </tr>
+    <% if(user_idx!='1234') {%>
     <tr>
       <td>
-        제출란 :
+        과제 제출 :
       </td>
       <td>
-
+        <form action="/api/assignmentRegist" method="post">
+          <input type="hidden" name="title", value="<%=list['title']%>">
+          <input type="file" name="stu_file" value="" multiple>
+          <input type="hidden" name="idx" value="<%=user_idx%>">
+          <input type="submit" name="" value="제출">
+        </form>
       </td>
     </tr>
+    <%}%>
   </table>
     <table>
     <tr>
+      <% if(user_idx=='1234') {%>
       <td>
         <form action="/" method="post">
           <input type="hidden" name="title", value="<%=list['title']%>">
@@ -69,11 +103,11 @@
           <input type="submit" name="" value="과제 삭제">
         </form>
       </td>
+      <%} else {%>
       <td>
-        <form action="/assignemtn.js" method="get">
-          <input type="button" name="" value="과제 제출">
-        </form>
+        결과 확인 :
       </td>
+      <%}%>
       <td>
         <form action="/report" method="post">
           <input type="hidden" name="title", value="<%=list['title']%>">
@@ -83,5 +117,26 @@
       </td>
     </tr>
   </table>
+</article>
+</article>
+    <footer>
+      <div id="center_footer">
+   <div id="left_footer"><b>Find Us On</b>
+   <ul>
+     <li> <a href=“#”><image src='../../images/youtube.png'/></a> </li>
+     <!-- <li> <a href=“#”>  <img src=“images/twitter.png”  />  </a> </li>
+     <li> <a href=“#”> <img src=“images/youtube.png”  /> </a> </li>
+     <li> <a href=“#”>     <img src=“images/rss.png”  />     </a> </li> -->
+     </ul>
+   </div>
+   <div id="right_footer">
+       <a href=“/”>HOME</a>
+       <a href=“#”>Q&A</a>
+       <a href=“#”>SERVICES</a>
+       <a href=“#”>PARTNERS</a>
+       <a href=“#”>CONTACT US</a>
+   </div>
+   <span>© Your Website Name 20117 </span>
+    </footer>
   </body>
 </html>

@@ -6,20 +6,30 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>과제 목록</h1>
+    <header>
+    <h1>AUTO GRADING SYSTEM</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#">Q&A</a></li>
+            <li>
+              <% if(userInformation){ %>
+                <li><a href="/login">Login</a></li>
+             <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
+              <% } else{ %>
+              <!-- <input type="button" value="logout" onClick="self.location='/logout';"> -->
+                <li><a href="/logout">Logout</a></li>
+              <% } %>
+            </li>
+        </ul>
+  </nav>
+  </header>
+<article>
     <h1>Assignment List</h1>
-
-    <% if(userInformation){ %>
- <input type="button" value="login" onClick="self.location='/login';">
-     <% } else{ %>
-     <input type="button" value="logout" onClick="self.location='/logout';">
-    <% } %>
-
-      <!-- <input type="button" value="login" onClick="self.location='/login';"> -->
-    <hr>
     <h3>Total : <%=list.length %></h3>
 
-    <table>
+
+    <table class = "type11"  width = "100%">
       <tr>
         <th>과제</th>
         <th>제목</th>
@@ -44,7 +54,29 @@
         <% } %>
     </table>
     <form action="./" method="post">
+      <% if(user_idx=='1234') {%>
       <input type="submit" value="과제 등록">
+      <%}%>
     </form>
+</article>
+    <footer>
+      <div id="center_footer">
+   <div id="left_footer"><b>Find Us On</b>
+   <ul>
+     <li> <a href=“#”><image src='../../images/youtube.png'/></a> </li>
+     <!-- <li> <a href=“#”>  <img src=“images/twitter.png”  />  </a> </li>
+     <li> <a href=“#”> <img src=“images/youtube.png”  /> </a> </li>
+     <li> <a href=“#”>     <img src=“images/rss.png”  />     </a> </li> -->
+     </ul>
+   </div>
+   <div id="right_footer">
+       <a href=“/”>HOME</a>
+       <a href=“#”>Q&A</a>
+       <a href=“#”>SERVICES</a>
+       <a href=“#”>PARTNERS</a>
+       <a href=“#”>CONTACT US</a>
+   </div>
+   <span>© Your Website Name 20117 </span>
+    </footer>
   </body>
 </html>
