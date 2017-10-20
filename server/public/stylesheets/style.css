@@ -8,9 +8,123 @@ a {
 }*/
 
 body{
-  background-color: #A8A8A8;
   font-family: 'Roboto', sans-serif;
 }
+header {
+font-family: Arial, Helvetica, sans-serif;
+background-color: #332;
+height: 100px;
+width: 100vw;
+margin-bottom: 5px;
+font-size: 20px;
+font-weight: bold;
+color: #FFF;
+text-align: center;
+padding-top: 25px;
+}
+
+nav {
+    width:100vw;height:30px;
+    background-color: #333;
+    margin: 0;
+    overflow: hidden;
+
+}
+nav ul{
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    /* This allow us to arrange list items in a row, without using float */
+    display: inline-block;
+    list-style-type: none;
+}
+
+/* Create a style for the first level items */
+nav > ul > li > a {
+    color: #aaa;
+    background-color:#333;
+    display: block;
+    line-height: 1em;
+    padding: 0.5em 0.5em;
+    text-decoration: none;
+}
+table.type11 {
+    border-collapse: separate;
+    border-spacing: 1px;
+    text-align: center;
+    line-height: 1.5;
+    margin: 20px 10px;
+}
+table.type11 th {
+    /*width: 155px;*/
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #aaa;
+    background: #333 ;
+}
+/*table.type11 tr td.1 {
+    width: 5px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+}*/
+/*table.type11 td {
+    width: 155px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #eee;
+}*/
+
+
+article{width:100vw;height:70vh;}
+
+
+
+footer{
+	/*height:100px;*/
+  width:100vw;height:30px;margin-bottom:0;
+	}
+
+#center_footer{
+	background:#332;
+	height: 130px;
+	margin:0 auto;
+	}
+#left_footer,#right_footer {
+	width:450px;
+	padding:20px;
+	float:left;
+	}
+#left_footer b{
+	color:#aaa;
+	}
+#left_footer li{
+	float:left;
+	margin:0 20px;
+	}
+#left_footer img{
+	width:60px;
+	height:60px;
+	}
+#right_footer{
+	float:right;
+	}
+#right_footer a{
+	color:#aaa;
+	padding:0 10px;
+	line-height: 21px;
+	font-size: 13px;
+	font-weight:bold;
+	}
+/*#footer span{
+	color:#aaa;
+	font-size: 13px;
+	margin-left: 150px;
+	}*/
 
 .container{
   /*border:1px solid white;*/
@@ -94,7 +208,7 @@ body{
 
 .login h2,
 .signup h2 {
-  color: #35B729;
+  color: #333;
   font-size:22px;
 }
 
