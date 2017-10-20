@@ -10,7 +10,7 @@ router.get('/a', function (req,res,next) {
   var idx = req.query.idx;
   console.log(title);
   console.log(idx);
-  fs.readFile('../public' + '/' + title + '/result/' + idx + '/unitReport.xml' , 'utf-8', function (err, data) {
+  fs.readFile('../public' + '/' + title + '/result/' + idx + '/UnitReport.xml' , 'utf-8', function (err, data) {
     var xml = data;
     if(err) {
       res.render('error',{});
@@ -61,10 +61,10 @@ router.post('/', function (req, res, next) {
   var idx = req.body.idx;
 
   if(idx && idx !='1234') {
-    fs.readFile('../public' + '/' + title + '/result/' + idx + '/unitReport.xml' , 'utf-8', function (err, data) {
+    fs.readFile('../public' + '/' + title + '/result/' + idx + '/UnitReport.xml' , 'utf-8', function (err, data) {
       var xml = data;
-      if(err) {
-        res.render('error',{});
+      if(err) { throw err;
+       // res.render('error',{});
       } else {
         parser.parseString(xml, function (err, result) {
           var info = new Object();
@@ -107,17 +107,19 @@ router.post('/', function (req, res, next) {
     })
   }
   else {
-    fs.readdir('../public' + '/' + title + '/result', 'utf-8', function (err, data) {
-      if(err) console.log("error");
+
+    fs.readdir('../public' + '/' + title + '/result/', function (err, data) {
+	if(err) throw err; //console.log("error");
       var list = [];
-      if(!data) res.send("NOT GENERATE THE RESULT FILE YET")
+	  
+      if(!data) res.send("NOT GENERATE THE RESULT FILE YET");
       else {
         for(i=0; i<data.length; i++) {
           list.push(data[i]);
         }
         res.render('list', {list:list, title:title});
       }
-    })
+    });
   }
 
 /*
