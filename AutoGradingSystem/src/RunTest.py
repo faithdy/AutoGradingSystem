@@ -1,7 +1,14 @@
 import subprocess
-from os import chdir, getcwd, mkdir, chmod
+from os import chdir, getcwd
 from os.path import  join, basename, exists, abspath
 
+
+'''
+빌드 테스트를 위한 모듈
+학생의 main 소스를 이용하여 컴파일 및 빌드
+stderr를 redirection하여 log(Make_RunTest.log)로 남긴다.
+#CompileTest 생성 시 True, 없을 시 False 반환
+'''
 result_dir = '../../result'
 
 

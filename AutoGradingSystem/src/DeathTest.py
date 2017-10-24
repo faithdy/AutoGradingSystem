@@ -15,6 +15,13 @@ def DeathTest(student_dir, path, config):
     DeathFlag = ExecTest(student_dir)
     return DeathFlag
 
+'''
+데스 테스트를 위한 모듈
+학생의 클래스를 이용하여 데스 테스트 코드(구글 테스트) 컴파일 및 빌드
+Make 동작 시 stderr를 redirection하여 log(Make_DeathTest.log)로 남긴다.
+정상적으로 동작 시 테스트 결과인 DeathReport.xml 파일 생성
+DeathReport.xml 생성 시 True, 없을 시 False 반환
+'''
 def ExecTest(student_path):
     origin_path = getcwd();
 
@@ -36,7 +43,14 @@ def ExecTest(student_path):
         chdir(origin_path)
         return False, None
 
-
+'''
+데스 테스트를 위한 테스트 코드(DeathTest.cpp) 생성
+Test Fixture를 사용하여 Test suite 생성
+Assertion은 EXPECT_DEATH를 사용하여 새로운 프로세스를 fork
+생성된 독립적인 프로세스에서 signal 비교를 통해 try/catch로 잡을 수 없는 에러를 확인
+signal handler는 signal.h에 정의
+Scenario 객체로 부터 테스트 케이즈 작성
+'''
 def MakeDeathTest(student_dir, path, config):
 
     student_dir = abspath(student_dir)
@@ -66,6 +80,12 @@ def MakeDeathTest(student_dir, path, config):
             wf.write(expectation)
             wf.write('}\n\n')
 
+'''
+데스 테스트에서 치명적 에러를 발생시킨 케이스는 유닛 테스트의 종료를 유발
+데스 테스트 결과인 DeathReport.xml 에서 정상 적인 성공은
+failed to die를 출력함. 따라서 failed to die인 테스트 케이스만
+유닛 테스트에게 통보
+'''
 def GetDeathFailList(xml_path):
     tree = parse(abspath(xml_path))
     root = tree.getroot()
