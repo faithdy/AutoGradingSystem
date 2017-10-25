@@ -30,7 +30,7 @@ Auto Grading System은 소프트웨어 교육, 그 중에도 **자료구조**와
 
 # 사용법
 <!-- 그림 캡쳐 및 동영상으로 설명할 것 -->
-(동영상)
+[![시연 동영상](https://img.youtube.com/vi/16l01nvElpE/sddefault.jpg)](https://youtu.be/16l01nvElpE?t=3m30s)
 <!-- 혹은 필요하다면 다른 마크다운 문서로 링크를 걸것. (초보/고급) -->
 
 # 사용 환경
