@@ -6,15 +6,16 @@ import re
 import time
 from os.path import join
 
+#호환성 match 프로세스
 def MatchCompatibility(filepaths, student_path, isFirst):
     if isFirst == True:
-        ChangeEncoding(filepaths, student_path)
-        BreakEncapsulation(filepaths, student_path)
+        ChangeEncoding(filepaths, student_path)     #인코딩 UTF-8 변환
+        BreakEncapsulation(filepaths, student_path) #private -> public
 
         cppfilepaths = [f.replace('.h', '.cpp') for f in filepaths]
-        InsertSignal(cppfilepaths)
-        RemoveCR(cppfilepaths)
-        RemoveBOMB(cppfilepaths)
+        InsertSignal(cppfilepaths)                  #데스 테스트에 필요한 signal 삽입
+        RemoveCR(cppfilepaths)                      #개행 문자 제거
+        RemoveBOMB(cppfilepaths)                    #Bomb 문자 제거
 
 def ChangeEncoding(filepaths, student_path):
     cppfilepaths = [f.replace('.h', '.cpp') for f in filepaths]
@@ -40,6 +41,7 @@ def ChangeEncoding(filepaths, student_path):
         if not 'ascii' in encoding and not 'utf-8' in encoding  :
             subprocess.call('iconv -f ' + encoding + ' -t utf-8 ' + header + ' --output ' + header, shell=True)
 
+#개행문자(Carraiage return) 제거
 def RemoveCR(cppfilepaths):
     for cppfile in cppfilepaths:
         subprocess.call('sed -i -e \'s/\r$//\' ' + cppfile, shell=True)
@@ -48,6 +50,7 @@ def RemoveBOMB(cppfilepaths):
     for cppfile in cppfilepaths:
         subprocess.call("perl -C -pi -e \'s/\\x{feff}//g\' " + cppfile, shell=True)
 
+#학생 코드에 접근하기 위해 private을 public으로 변환
 def BreakEncapsulation(filepath, student_path):
     for header in filepath:
         shutil.copy(header, join(student_path, 'bak'))
