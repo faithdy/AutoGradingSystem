@@ -64,6 +64,7 @@ def BreakEncapsulation(filepath, student_path):
             new_file.write(line.replace('private', 'public') + '\n')
         new_file.close()
 
+#
 def InsertSignal(filepath):
 
     count = 0

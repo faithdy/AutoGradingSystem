@@ -40,7 +40,7 @@ JsonUnitTest = process_steps['unit']
 JsonOopTest = process_steps['oop']
 
 '''
-순서대
+순서fh
 해당 과제의 학습자 제출 디렉터리
 학습자의 채점 결과 및 로그 디렉터리
 해당 과제의 SetUp 디렉터리 (설정 파일, 테스 SetUp() 코드...)
