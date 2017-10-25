@@ -40,9 +40,10 @@ JsonUnitTest = process_steps['unit']
 JsonOopTest = process_steps['oop']
 
 '''
+순서fh
 해당 과제의 학습자 제출 디렉터리
 학습자의 채점 결과 및 로그 디렉터리
-해당 과제의 SetUp 디렉터리 (설정 파일, Test SetUp() 코드...)
+해당 과제의 SetUp 디렉터리 (설정 파일, 테스 SetUp() 코드...)
 해당 과제의 설정(configure) 파일
 '''
 student_dir = join(r'../public', project_name + '/data')
@@ -52,7 +53,7 @@ config_path = join(info_dir, project_name + '.conf')
 
 
 '''
-인자로 들어온 학생 디렉터리의 header 파일의 경로와 basename을 반환한다.
+인자로 들어온 학생 디렉터리의 header 파일의 경로와 basename을 반환
 '''
 def GetClass(path):
     allFiles = glob.glob(join(path, '*.h'))
@@ -68,7 +69,7 @@ def GetClass(path):
 
 '''
 해당 과제의 configure 파일로부터
-과제의 이름, Test의 SetUp() 코드 경로, 테스트 시나리오를 불러온다.
+과제의 이름, 테스의 SetUp() 코드 경로, 테스트 시나리오를 불러옴
 '''
 def GetConfig(path):
     cfg = configparser.ConfigParser()
@@ -81,13 +82,13 @@ def GetConfig(path):
 
     scenarios = []
 
-    #각 테스트 시나리오는 Scenario 객체로 관리된다.
+    #각 테스트 시나리오는 Scenario 객체로 관리
     for i in range(int(scenario_count)):
         scen = Scenario('scenario_' + str(i))
         scen.SetScenario(cfg)
         scenarios.append(scen)
 
-    #데스 테스트와 유닛 테스트의 파일을 연다.
+    #데스 테스트와 유닛 테스트의 파일 열
     with open(join(info_dir,death_setup), 'r') as setup:
         death_setup_file = setup.read()
 
@@ -95,7 +96,7 @@ def GetConfig(path):
         unit_setup_file = setup.read()
 
 
-    #최종 설정들은 딕셔너리로 관리된다.
+    #최종 설정들은 딕셔너리로 관리
     config = {
         'name' : name,
         'death_setup' : death_setup_file,
@@ -108,10 +109,10 @@ def GetConfig(path):
 
 
 '''
-해당 과제를 제출한 모든 학습자의 디렉터리 경로를 얻는다.
+해당 과제를 제출한 모든 학습자의 디렉터리 경로를 얻
 이때 웹에서 특정 학생을 선택한다면
 --student IDs
-의 인자로 받아 특정 학생의 디렉터리만 반환한다.
+의 인자로 받아 특정 학생의 디렉터리만 반환
 '''
 def GetStudentList(path, IDs):
     files = glob.glob(join(path, '*'))
@@ -129,7 +130,7 @@ def GetStudentList(path, IDs):
 학생 과제 디렉터리와 설정을 인자로 받는다.
 이 단계에서 학생코드의 호환성을 위해 변형하기 전
 원본을 보존하기 위해 bak 디렉터리 생성 후 저장
-학생 결과가 저장될 result/학생 디렉터리 생성스
+학생 결과가 저장될 result/학생 디렉터리 생성
 
 각 단계의 실패란, 테스트 실행파일 또는 결과 파일이 생성되지 않았음을 의미.
 '''
@@ -149,7 +150,7 @@ def main_process(student_path, config):
         chmod(bak, 0o777)
         isFirst = True
 
-    #학생의 Header 파일 경로 및 Header의 basename(class)를 불러온다
+    #학생의 Header 파일 경로 및 Header의 basename(class)를 불러옴
     filepaths, classes = GetClass(student_path)
 
     #파일이 없는 경후 프로세스를 종료한다.
@@ -199,12 +200,12 @@ def main_process(student_path, config):
 main 함수
 학생 전체 또는 특정 학생에 대해 
 에러에 독립적이기 위해 multiprocessing 통해
-병렬적으로 프로세스를 실행한다.
+병렬적으로 프로세스를 실행
 '''
 if __name__ == "__main__":
 
     #특정 학생을 입력받기 위해
-    #argparser를 사용하여 입력받는다.
+    #argparser를 사용하여 입력
     parser = argparse.ArgumentParser()
     parser.add_argument(
         '--student',
@@ -217,7 +218,7 @@ if __name__ == "__main__":
     FLAGS, unparsed = parser.parse_known_args()
     selected_student = FLAGS.student
 
-    #해당 과제를 제출한 학생들의 리스트를 불러온다.
+    #해당 과제를 제출한 학생들의 리스트를 불러
     student_list = GetStudentList(student_dir, selected_student)
 
     #해당 과제의 설정을 딕셔너리 형태로 불러온다
@@ -225,7 +226,7 @@ if __name__ == "__main__":
 
     procs = []
 
-    #학생 별로 독립적인 프로세스에서 main_process를 실행시켜 채점한다.
+    #학생 별로 독립적인 프로세스에서 main_process를 실행시켜 채점
     for i in range(len(student_list)):
         procs.append(Process(target=main_process, args=(student_list[i], config)));
 

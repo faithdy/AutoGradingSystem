@@ -11,7 +11,14 @@ all = 'compile : $(COMPILE)\ndeath : $(DEATH)\nunit : $(UNIT)\n'
 clean = 'clean :\n\t\trm -f $(COMPILE) gtest_main.a *.o\n\t\trm -f $(DEATH) gtest_main.a *.o\n\t\trm -f $(UNIT) gtest_main.a *.o \n\n'
 
 
+'''
+Makefile을 만들기 위한 모듈
+각 학생 폴더에 접근하여 빌드테스트, 데스테스트, 유닛테스트를 위한
+하나의 MakeFile을 생성한다.
+'''
 
+
+# MakeFile 생성성
 def CreateMakeFile(student_dir, path, classes):
 
 
@@ -22,7 +29,7 @@ def CreateMakeFile(student_dir, path, classes):
 
 
 
-    # Make Death test C++ file
+    # 빋드 테스트, 데스테스트, 유닛테스트를 위한 MakeFile 생
     wf = open(join(student_dir, 'Makefile'), 'w')
 
     wf.write(gtest_dir)
