@@ -29,6 +29,52 @@ Auto Grading System은 소프트웨어 교육, 그 중에도 **자료구조**와
     - Graph Isomorphism Problem 알고리즘 적용
 
 # 사용법
+## API, 환경 설정
+다음은 교수자를 위한 보조 함수 및 API, 과제 환경 파일 작성법입니다.
+### 1. API
+본 시스템에서 제공하는 API 목록과 prototype입니다.
+``` c++
+1. 동형성 검사
+bool isIsomorphic(Graph *G1, Graph *G2);
+/*
+  description : 자료구조 클래스의 동형성 관계를 검사하는 함수.
+                제공되는 자료구조는 다음과 같다.
+                - list
+                - tree
+                - graph   
+  input : 자료구조 클래스 G
+          G1은 테스트 할 클래스를, G2는 예측 상태의 클래스에 해당한다.
+  output : 동형 관계라면 true, 그렇지 않다면 false를 리턴.
+*/
+```
+
+``` c++
+2. 콘솔 비교 검사
+bool printedTest(String sentence, const int opt, callback);
+/*
+  description : 콘솔에 출력되는 결과를 검사하는 함수이다.
+  input : 예상되는 문자열 sentence와 테스트할 함수의 포인터 callback,
+          그리고 정규 표현식을 사용할지에 대한 여부인 opt로 구성.
+          opt가 0이라면 정규 표현식을 사용하지 않으며, 기본 값으로 설정되어 있고,
+          opt가 1이라면 정규 표현식을 사용한다.
+  output : 출력 문자열이 문자열 sentence와 일치하면 true, 그렇지 않다면 false를 리턴.
+*/
+```
+
+### 2. 환경 설정
+본 시스템에서 사용하는 환경 파일 conf.cc에 대한 작성법입니다.
+``` python
+total_index = 2 // 테스트 suite의 총 갯수를 기입.
+
+scenario_0 // 테스트 suite의 번호.
+death_index = 0 1 // wrapper 사용 여부. 기재된 번호는 wrapping 되지 않음. 
+function_0 = Graph G1, G2;
+function_1 = G1.insert(30); G2.insert(30);
+scenario_1 = isIsomorphic(G1,G2)
+```
+
+
+## 시연동영상
 <!-- 그림 캡쳐 및 동영상으로 설명할 것 -->
 [![시연 동영상](http://img.youtube.com/vi/KI-fHvDp0Wo/0.jpg)](https://www.youtube.com/embed/KI-fHvDp0Wo)
 
