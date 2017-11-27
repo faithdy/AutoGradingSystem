@@ -1,0 +1,43 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely edit after that. If you find
+# yourself editing this file very often, consider using Jekyll's data files
+# feature for the data you need to update frequently.
+#
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+# These are used to personalize your new site. If you look in the HTML files,
+# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
+# You can create any custom variable you would like, and they will be accessible
+# in the templates via {{ site.myvariable }}.
+title: Auto Grading System
+email: faithdy@kw.ac.kr
+description: >- # this means to ignore newlines until "baseurl:"
+  Auto Grading System은 C/C++ 기반 학부 프로그래밍 과제를 자동으로 채점해주는 프로그램입니다.
+  본 프로그램은 C++ 기반 오픈 소스 프레임 워크인 Google Test를 사용하였으며, MEAN 스택을 이용하여 웹 애플리케이션을 구현하였습니다.
+  본 시스템은 연구 및 개발이 진행중인 프로젝트입니다.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "http://ags.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: ""
+github_username:  faithdy
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
