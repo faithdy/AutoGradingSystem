@@ -110,9 +110,9 @@ ex) public/DS_2017_project_1/
 ```
 3. 해당하는 프로젝트 디렉토리 밑에 **data**, **info**, **result**라는 디렉토리를 생성합니다.  
 ```
-ex) DS_2016_project_1/data  
-       DS_2016_project_1/info  
-       DS_2016_project_1/result  
+ex) DS_2017_project_1/data  
+       DS_2017_project_1/info  
+       DS_2017_project_1/result  
 ```          
 3-1. info 관련  
 1) **프로젝트 이름과 동일한 json 파일**을 생성해줍니다.  
@@ -155,5 +155,13 @@ ex) 2012722002/DeathReport.xml
 
 
 #### 채점 프로세스 가동
-
+1. root 디렉토리 밑에 **AutoGradingSystem** 디렉토리로 이동합니다.
+2. 쉘 스크립트에 python main.py 명령어 입력 후 인자 값으로 과제 프로젝트 이름을 입력하면 public/프로젝트 이름/data/ 디렉토리 내의 학습자 폴더들을 탐색하여 채점 프로세스를 진행합니다.
+```
+ex) python main.py DS_2017_project_1
+```
+<!-- 3. 만일 특정 학습자만 채점하기를 원한다면 다음 인자 값을 추가로 명령합니다.
+```
+ex) python main.py DS_2017_project_1
+``` -->
 <br>
