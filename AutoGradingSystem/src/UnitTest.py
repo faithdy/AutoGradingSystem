@@ -45,13 +45,16 @@ Test Fixture를 사용하여 Test suite 생성
 Assertion은 EXPECT_TRUE를 사용한 반환 값 비교
 Scenario 객체로 부터 Test Case 작성
 '''
-def MakeUnitTest(student_dir, path, config, faillist):
+def MakeUnitTest(student_dir, path, assistant_path, config, faillist):
     student_dir = abspath(student_dir)
     fixture = 'TEST_F('
     expection = '\tEXPECT_TRUE('
 
     with open(join(student_dir,'UnitTest.cpp'), 'w') as wf:
         for p in path:
+            wf.write('#include \"' + abspath(p) + '\"\n')
+
+        for p in assistant_path:
             wf.write('#include \"' + abspath(p) + '\"\n')
 
         wf.write("#include \"../../../../AutoGradingSystem/src/include/signal.h\"\n")

@@ -51,7 +51,7 @@ Assertion은 EXPECT_DEATH를 사용하여 새로운 프로세스를 fork
 signal handler는 signal.h에 정의
 Scenario 객체로 부터 테스트 케이즈 작성
 '''
-def MakeDeathTest(student_dir, path, config):
+def MakeDeathTest(student_dir, path, assistant_path, config):
 
     student_dir = abspath(student_dir)
     fixture = 'TEST_F('
@@ -61,6 +61,9 @@ def MakeDeathTest(student_dir, path, config):
     with open(join(student_dir,'DeathTest.cpp'), 'w') as wf:
 
         for p in path:
+            wf.write('#include \"' + abspath(p) + '\"\n')
+
+        for p in assistant_path:
             wf.write('#include \"' + abspath(p) + '\"\n')
 
 

@@ -134,7 +134,7 @@ def GetStudentList(path, IDs):
 
 각 단계의 실패란, 테스트 실행파일 또는 결과 파일이 생성되지 않았음을 의미.
 '''
-def main_process(student_path, config):
+def main_process(student_path, config, assistant_filepaths, assistant_classes):
     isFirst = False
     compile_err_json = OrderedDict()
 
@@ -159,7 +159,7 @@ def main_process(student_path, config):
 
     #학생의 컴파일 및 빌드를 위한 Makefile을 생성한다.
     #빌드 테스트, 데스 테스트, 유닛 테스트를 위한 통합 Makefile 생성
-    mf.CreateMakeFile(student_path, filepaths, classes)
+    mf.CreateMakeFile(student_path, filepaths, classes, assistant_filepaths, assistant_classes)
 
     # 호환성 검사(처음만 실행)
     # 인코딩 변환, 개행(Carriage Return), Bomb 제거
@@ -221,6 +221,11 @@ if __name__ == "__main__":
     #해당 과제를 제출한 학생들의 리스트를 불러
     student_list = GetStudentList(student_dir, selected_student)
 
+    # 조교의 Header 파일 경로 및 Header의 basename(class)를 불러옴
+    assistant_filepaths, assistant_classes = GetClass(info_dir)
+
+    mf.AssistantCreateMakeFile(info_dir, assistant_filepaths, assistant_classes)
+
     #해당 과제의 설정을 딕셔너리 형태로 불러온다
     config = GetConfig(config_path)
 
@@ -228,7 +233,7 @@ if __name__ == "__main__":
 
     #학생 별로 독립적인 프로세스에서 main_process를 실행시켜 채점
     for i in range(len(student_list)):
-        procs.append(Process(target=main_process, args=(student_list[i], config)));
+        procs.append(Process(target=main_process, args=(student_list[i], config, assistant_filepaths, assistant_classes)));
 
     for p in procs:
         print('excute process')
